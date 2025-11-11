@@ -33,7 +33,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y curl gpg
-          curl -fsSL https://get.opentofu.org/install.sh | sudo bash
+          curl -fsSL https://get.opentofu.org | sudo bash
           tofu version
 
       - name: Init/Apply OpenTofu
