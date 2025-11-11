@@ -1,0 +1,84 @@
+:root {
+    --bg: #0f1220;
+    --card: #171a2b;
+    --ink: #e8ebff;
+    --muted: #9aa3c8;
+    --accent: #7aa2ff;
+}
+* {
+    box-sizing: border-box;
+}
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family:
+        system-ui,
+        Segoe UI,
+        Roboto,
+        Ubuntu,
+        Cantarell,
+        sans-serif;
+    color: var(--ink);
+    background: linear-gradient(180deg, #0b0e1a 0%, var(--bg) 100%);
+}
+.wrap {
+    width: min(100%, 920px);
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+.header {
+    padding: 3.5rem 1rem 1rem;
+    text-align: center;
+}
+h1 {
+    margin: 0;
+    font-size: 2.25rem;
+    letter-spacing: 0.3px;
+}
+.subtitle {
+    color: var(--muted);
+    margin: 0.35rem 0 0;
+}
+.contacts a {
+    color: var(--accent);
+    text-decoration: none;
+}
+.contacts a:hover {
+    text-decoration: underline;
+}
+main {
+    margin: 2rem auto 4rem;
+    display: grid;
+    gap: 1.25rem;
+}
+section {
+    background: var(--card);
+    padding: 1.25rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+h2 {
+    margin: 0.25rem 0 1rem;
+    font-size: 1.25rem;
+}
+h3 {
+    margin: 0.25rem 0 0.5rem;
+    font-size: 1.05rem;
+}
+ul {
+    margin: 0.5rem 0 0 1rem;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.5rem 1rem;
+}
+.grid li {
+    margin: 0 0 0 1rem;
+}
+.footer {
+    text-align: center;
+    color: var(--muted);
+    padding: 2rem 0 3rem;
+}

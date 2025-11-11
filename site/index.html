@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Damian Ortega – Resume</title>
+        <link rel="stylesheet" href="styles.css" />
+        <meta
+            name="description"
+            content="Resume for Damian Ortega – DevOps / SRE / IT Engineer"
+        />
+    </head>
+    <body>
+        <header class="wrap header">
+            <h1>Damian Ortega</h1>
+            <p class="subtitle">IT Engineer • DevOps / SRE</p>
+            <p class="contacts">
+                <a href="mailto:damian.ortega@gmail.com"
+                    >damian.ortega@gmail.com</a
+                >
+                · <a href="tel:+17864140117">786-414-0117</a> ·
+                <a
+                    href="https://www.linkedin.com/in/damian-ortega"
+                    target="_blank"
+                    rel="noopener"
+                    >LinkedIn</a
+                >
+                ·
+                <a href="Damian-Ortega-Engineer.pdf" download>Download PDF</a>
+            </p>
+        </header>
+
+        <main class="wrap">
+            <section>
+                <h2>Summary</h2>
+                <p>
+                    Results-oriented engineer with 15 years across on-prem and
+                    cloud. Builds scalable infra, tightens CI/CD, and drives
+                    observability and cost efficiency (AWS & Azure; SaltStack,
+                    GitHub Actions, Docker).
+                </p>
+            </section>
+
+            <section>
+                <h2>Highlights</h2>
+                <ul class="grid">
+                    <li>
+                        CI/CD with GitHub Actions; retired legacy tooling &
+                        Azure spend
+                    </li>
+                    <li>
+                        Datadog dashboards/alerts; reduced detection time,
+                        replaced PagerDuty
+                    </li>
+                    <li>
+                        Infra as Code (SaltStack, Terraform/OpenTofu); golden
+                        AMIs & patch automation
+                    </li>
+                    <li>
+                        AWS cost controls (S3/CloudFront cleanup, right-sizing)
+                        ~15% savings
+                    </li>
+                    <li>
+                        Kubernetes & Docker; containerized/immutable app
+                        strategy
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Experience (Quick View)</h2>
+                <article>
+                    <h3>Zumba, LLC — DevOps Engineer (2023–Present)</h3>
+                    <ul>
+                        <li>
+                            Own infra for global web/mobile; security hardening
+                            & incident response
+                        </li>
+                        <li>
+                            SaltStack for config; fewer manual steps, more
+                            consistency
+                        </li>
+                        <li>
+                            GitHub Actions pipelines; faster, more reliable
+                            releases
+                        </li>
+                    </ul>
+                </article>
+                <article>
+                    <h3>ChenMed — Sr. Systems Admin (2019–2023)</h3>
+                    <ul>
+                        <li>
+                            Patch automation: 2 weeks → 2 days; golden AMIs; IaC
+                            redeploys
+                        </li>
+                        <li>
+                            Multi-language pipelines
+                            (Java/Node/.NET/Python/iOS/Android)
+                        </li>
+                        <li>
+                            Right-sizing automation cut a multi-million AWS bill
+                        </li>
+                    </ul>
+                </article>
+                <article>
+                    <h3>University of Miami — Systems Admin (2014–2019)</h3>
+                    <ul>
+                        <li>
+                            Unix/Storage admin across Dell/EMC/IBM/NetApp; AIX &
+                            SAN fabrics
+                        </li>
+                    </ul>
+                </article>
+            </section>
+        </main>
+
+        <footer class="wrap footer">
+            <small>© <span id="y"></span> Damian Ortega</small>
+        </footer>
+
+        <script>
+            document.getElementById("y").textContent = new Date().getFullYear();
+        </script>
+    </body>
+</html>

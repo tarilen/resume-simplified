@@ -1,0 +1,18 @@
+# Terraform/OpenTofu local data
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+.terraform/
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Sensitive configuration
+*.tfvars
+!example.tfvars  # keep a sanitized template if needed
+
+# Editor/OS junk
+.DS_Store
+Thumbs.db

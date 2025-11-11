@@ -1,0 +1,61 @@
+name: deploy
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ARM_USE_OIDC: "true"
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+jobs:
+  provision-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure OIDC login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install OpenTofu
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y curl gpg
+          curl -fsSL https://get.opentofu.org/install.sh | sudo bash
+          tofu version
+
+      - name: Init/Apply OpenTofu
+        working-directory: tofu
+        run: |
+          tofu init -upgrade
+          tofu apply -auto-approve -input=false
+
+      - name: Read outputs
+        id: tfout
+        working-directory: tofu
+        run: |
+          echo "rg=$(tofu output -raw resource_group)" >> $GITHUB_OUTPUT
+          echo "sa=$(tofu output -raw storage_account)" >> $GITHUB_OUTPUT
+          echo "web=$(tofu output -raw static_web_url)" >> $GITHUB_OUTPUT
+
+      - name: Upload static site to $web
+        run: |
+          az storage blob upload-batch \
+            --account-name "${{ steps.tfout.outputs.sa }}" \
+            --auth-mode login \
+            -s site -d '$web'
+
+      - name: Post the site URL
+        run: echo "Site: ${{ steps.tfout.outputs.web }}"
