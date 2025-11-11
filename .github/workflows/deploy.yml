@@ -58,4 +58,5 @@ jobs:
             -s site -d '$web'
 
       - name: Post the site URL
-        run: echo "Site: ${{ steps.tfout.outputs.web }}"
+        run: |
+          echo "Site: ${{ steps.tfout.outputs.web }}"
