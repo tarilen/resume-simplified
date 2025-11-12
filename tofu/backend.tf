@@ -4,6 +4,6 @@ terraform {
     storage_account_name = "tfstateresumesimplified"
     container_name       = "tfstate"
     key                  = "resume-site/tofu.tfstate"
-    use_azuread_auth     = true   # <- important: don't fetch account keys
+    use_oidc             =  true
   }
 }
