@@ -61,7 +61,9 @@ jobs:
           az storage blob upload-batch \
             --account-name "${{ steps.tfout.outputs.sa }}" \
             --auth-mode login \
-            -s site -d '$web'
+            -s site \
+            -d '$web' \
+            --overwrite
 
       - name: Post the site URL
         run: |
