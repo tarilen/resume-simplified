@@ -1,7 +1,6 @@
 # Terraform/OpenTofu local data
 *.tfstate
-*.tfstate.backup
-*.tfstate.lock.info
+*.tfstate.*
 .terraform/
 crash.log
 override.tf
