@@ -2,122 +2,404 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Damian Ortega – Resume</title>
-        <link rel="stylesheet" href="styles.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Damian Ortega — Resume</title>
         <meta
             name="description"
-            content="Resume for Damian Ortega – DevOps / SRE / IT Engineer"
+            content="Damian Ortega — DevOps / SRE / IT Engineer"
         />
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@500&display=swap"
+            rel="stylesheet"
+        />
+
     </head>
     <body>
-        <header class="wrap header">
-            <h1>Damian Ortega</h1>
-            <p class="subtitle">IT Engineer • DevOps / SRE</p>
-            <p class="contacts">
-                <a href="mailto:damian.ortega@gmail.com"
-                    >damian.ortega@gmail.com</a
-                >
-                · <a href="tel:+17864140117">786-414-0117</a> ·
-                <a
-                    href="https://www.linkedin.com/in/damian-ortega"
-                    target="_blank"
-                    rel="noopener"
-                    >LinkedIn</a
-                >
-                ·
-                <a href="Damian-Ortega-Engineer.pdf" download>Download PDF</a>
-            </p>
-        </header>
+        <div class="wrap">
+            <section class="hero" aria-label="Intro">
+                <!-- Left panel -->
+                <div class="left">
+                    <img
+                        class="photo"
+                        src="./damian_profile_image.jpg"
+                        alt="Portrait of Damian Ortega"
+                    />
+                    <div class="name">&lt;DAMIAN&nbsp;ORTEGA&gt;</div>
+                    <div class="role">DevOps / SRE · he/him</div>
 
-        <main class="wrap">
-            <section>
-                <h2>Summary</h2>
-                <p>
-                    Results-oriented engineer with 15 years across on-prem and
-                    cloud. Builds scalable infra, tightens CI/CD, and drives
-                    observability and cost efficiency (AWS & Azure; SaltStack,
-                    GitHub Actions, Docker).
-                </p>
-            </section>
+                    <div style="margin-top: 18px">
+                        <a
+                            class="btn primary"
+                            href="mailto:damian.ortega@gmail.com"
+                            >Email me</a
+                        >
+                        <a
+                            class="btn primary"
+                            href="./Damian-Ortega-Engineer.pdf"
+                            target="_blank"
+                            rel="noopener"
+                            >Resume</a
+                        >
+                    </div>
 
-            <section>
-                <h2>Highlights</h2>
-                <ul class="grid">
+                    <div class="social" aria-label="Social links">
+                        <a
+                            class="icon"
+                            href="https://github.com/tarilen"
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label="GitHub"
+                        >
+                            <!-- GitHub mark -->
+                            <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.72.08-.72 1.2.08 1.84 1.23 1.84 1.23 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.48-1.33-5.48-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.25 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .5Z"
+                                />
+                            </svg>
+                        </a>
+                        <a
+                            class="icon"
+                            href="https://www.linkedin.com/in/damian-ortega"
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label="LinkedIn"
+                        >
+                            <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zM8.5 8.5h3.8v2.1h.1c.5-1 1.8-2.1 3.8-2.1 4.1 0 4.9 2.7 4.9 6.2V24h-4v-6.7c0-1.6 0-3.8-2.3-3.8-2.3 0-2.7 1.7-2.7 3.7V24h-4V8.5z"
+                                />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right panel -->
+                <div class="right">
+                  <div class="right-inner">
+
+                  <!-- About Me Section -->
+                  <div id="about-section" class="panel visible">
+                    <h2 class="about-title">&lt;/ About&nbsp;Me &gt;</h2>
+                    <p class="about">
+                      I’m a DevOps/SRE engineer with 15 years across cloud and on-prem.
+                      I specialize in CI/CD, observability, and automation—turning messy
+                      systems into tidy pipelines that run fast and cheap. Comfortable in
+                      AWS & Azure; happiest when dashboards are green and bills trend down.
+                    </p>
+                    <div class="cta-row">
+                      <a class="btn" href="#" id="open-references">Professional References</a>
+                    </div>
+                    <div class="cta-row">
+                      <a class="btn" href="#" id="open-skills">Technical Skills</a>
+                    </div>
+                  </div>
+                <!-- Professional References Section -->
+                <div id="references-section" class="panel">
+                <h2 class="about-title">&lt;/ Professional References &gt;</h2>
+                <ul>
                     <li>
-                        CI/CD with GitHub Actions; retired legacy tooling &
-                        Azure spend
+                    <strong>Michael Trogman</strong> — Director of IT
+                    <a
+                        class="icon"
+                        href="https://www.linkedin.com/in/michael-trogman/"
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="Michael Trogman on LinkedIn"
+                        title="LinkedIn"
+                        style="width:28px;height:28px; vertical-align: middle; margin-left: 8px;"
+                    >
+                        <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                        >
+                        <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zM8.5 8.5h3.8v2.1h.1c.5-1 1.8-2.1 3.8-2.1 4.1 0 4.9 2.7 4.9 6.2V24h-4v-6.7c0-1.6 0-3.8-2.3-3.8-2.3 0-2.7 1.7-2.7 3.7V24h-4V8.5z"/>
+                        </svg>
+                    </a>
                     </li>
                     <li>
-                        Datadog dashboards/alerts; reduced detection time,
-                        replaced PagerDuty
+                    <strong>Alejandro Schmidt</strong> — Senior Platform Engineer
+                    <a
+                        class="icon"
+                        href="https://www.linkedin.com/in/alejandro-schmidt-8905b7183/"
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="Alejandro Schmidt on LinkedIn"
+                        title="LinkedIn"
+                        style="width:28px;height:28px; vertical-align: middle; margin-left: 8px;"
+                    >
+                        <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                        >
+                        <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zM8.5 8.5h3.8v2.1h.1c.5-1 1.8-2.1 3.8-2.1 4.1 0 4.9 2.7 4.9 6.2V24h-4v-6.7c0-1.6 0-3.8-2.3-3.8-2.3 0-2.7 1.7-2.7 3.7V24h-4V8.5z"/>
+                        </svg>
+                    </a>
                     </li>
                     <li>
-                        Infra as Code (SaltStack, Terraform/OpenTofu); golden
-                        AMIs & patch automation
-                    </li>
-                    <li>
-                        AWS cost controls (S3/CloudFront cleanup, right-sizing)
-                        ~15% savings
-                    </li>
-                    <li>
-                        Kubernetes & Docker; containerized/immutable app
-                        strategy
+                    <strong>Franklin Reyes</strong> — DevOps Engineer
+                    <a
+                        class="icon"
+                        href="https://www.linkedin.com/in/franklin-jesus-reyes/"
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="Franklin Reyes on LinkedIn"
+                        title="LinkedIn"
+                        style="width:28px;height:28px; vertical-align: middle; margin-left: 8px;"
+                    >
+                        <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                        >
+                        <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zM8.5 8.5h3.8v2.1h.1c.5-1 1.8-2.1 3.8-2.1 4.1 0 4.9 2.7 4.9 6.2V24h-4v-6.7c0-1.6 0-3.8-2.3-3.8-2.3 0-2.7 1.7-2.7 3.7V24h-4V8.5z"/>
+                        </svg>
+                    </a>
                     </li>
                 </ul>
+                <div class="cta-row">
+                    <a class="btn back-btn" href="#">← Back to About</a>
+                </div>
+                </div>
+
+                  <!-- Technical Skills Section -->
+                  <div id="technicalskills-section" class="panel">
+                    <h2 class="about-title">&lt;/ Technical Skills &gt;</h2>
+
+                    <div class="skills-grid">
+                      <div class="skill-group">
+                        <h3>Scripting</h3>
+                        <ul class="skills-list">
+                          <li>Python</li><li>Bash</li><li>PowerShell</li>
+                        </ul>
+                      </div>
+
+                      <div class="skill-group">
+                        <h3>Virtualization & Cloud</h3>
+                        <ul class="skills-list">
+                          <li>VMware</li><li>AWS</li>
+                        </ul>
+                      </div>
+
+                      <div class="skill-group">
+                        <h3>Automation & CI/CD</h3>
+                        <ul class="skills-list">
+                          <li>Jenkins</li><li>Bitbucket</li><li>Octopus</li>
+                          <li>CloudFormation</li><li>Nexus</li><li>Terraform</li>
+                          <li>SonarQube</li><li>Fastlane</li><li>SaltStack</li><li>IaC</li>
+                        </ul>
+                      </div>
+
+                      <div class="skill-group">
+                        <h3>Orchestration</h3>
+                        <ul class="skills-list">
+                          <li>SaltStack</li><li>Kamal</li><li>Docker</li><li>Kubernetes</li>
+                        </ul>
+                      </div>
+
+                      <div class="skill-group">
+                        <h3>Secrets Management</h3>
+                        <ul class="skills-list">
+                          <li>AWS Secrets Manager</li><li>etcd</li><li>Vault</li>
+                          <li>1Password</li><li>Salt Pillars</li>
+                        </ul>
+                      </div>
+
+                      <div class="skill-group">
+                        <h3>Linux</h3>
+                        <ul class="skills-list">
+                          <li>CentOS</li><li>RHEL</li><li>Ubuntu</li><li>UNIX</li>
+                        </ul>
+                      </div>
+
+                      <div class="skill-group">
+                        <h3>Windows Server</h3>
+                        <ul class="skills-list">
+                          <li>2008</li><li>2012</li><li>2016</li><li>2019</li>
+                        </ul>
+                      </div>
+
+                      <div class="skill-group">
+                        <h3>Storage</h3>
+                        <ul class="skills-list">
+                          <li>IBM SAN/NAS</li><li>Dell EMC</li><li>NetApp</li>
+                          <li>Promise</li><li>HP</li>
+                        </ul>
+                      </div>
+
+                      <div class="skill-group">
+                        <h3>Ticketing</h3>
+                        <ul class="skills-list">
+                          <li>Jira</li><li>ServiceNow</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="cta-row">
+                      <a class="btn back-btn" href="#">← Back to About</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                  const right             = document.querySelector('.right');          // container with border & height animation
+                  const shell             = document.querySelector('.right-inner');     // inner wrapper that has padding
+                  const aboutSection      = document.getElementById('about-section');
+                  const skillsSection     = document.getElementById('technicalskills-section');
+                  const referencesSection = document.getElementById('references-section');
+                  const openSkills        = document.getElementById('open-skills');
+                  const openReferences    = document.getElementById('open-references');
+                  const backButtons       = document.querySelectorAll('.back-btn');
+              
+                  let rafId = 0;
+                  const BUFFER = 16; // breathing room to avoid clipping
+              
+                  const activePanel = () =>
+                    document.querySelector('.right-inner .panel.visible') || aboutSection;
+              
+                  function padY(el) {
+                    const cs = getComputedStyle(el);
+                    return parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+                  }
+                  function borderY(el) {
+                    const cs = getComputedStyle(el);
+                    return parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+                  }
+              
+                  function measurePanelHeight(panel) {
+                    const wasVisible = panel.classList.contains('visible');
+                    if (!wasVisible) panel.classList.add('visible', 'measuring'); // render but hidden
+                    const contentH = Math.ceil(panel.scrollHeight);
+                    if (!wasVisible) panel.classList.remove('visible', 'measuring');
+              
+                    // Set height on .right (border-box): content + shell padding + right borders + small buffer
+                    return contentH + padY(shell) + borderY(right) + BUFFER;
+                  }
+              
+                  function setContainerHeight(panel) {
+                    cancelAnimationFrame(rafId);
+                    rafId = requestAnimationFrame(() => {
+                      right.style.height = measurePanelHeight(panel) + 'px';
+                    });
+                  }
+              
+                  function show(panelToShow, panelToHide) {
+                    panelToHide.classList.remove('visible');
+                    panelToShow.classList.add('visible');
+                    setContainerHeight(panelToShow);
+                  }
+              
+                  // Initial size after fonts load to avoid late jump
+                  const init = () => setContainerHeight(aboutSection);
+                  if (document.fonts?.ready) {
+                    document.fonts.ready.then(init);
+                  } else {
+                    init();
+                  }
+              
+                  // Keep correct on window resize
+                  window.addEventListener('resize', () => setContainerHeight(activePanel()));
+              
+                  // Openers
+                  openSkills?.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    show(skillsSection, activePanel());
+                  });
+              
+                  openReferences?.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (!referencesSection) return; // guard if section not present
+                    show(referencesSection, activePanel());
+                  });
+              
+                  // Shared back buttons
+                  backButtons.forEach((btn) =>
+                    btn.addEventListener('click', (e) => {
+                      e.preventDefault();
+                      show(aboutSection, activePanel());
+                    })
+                  );
+                });
+              </script>
             </section>
 
-            <section>
-                <h2>Experience (Quick View)</h2>
-                <article>
-                    <h3>Zumba, LLC — DevOps Engineer (2023–Present)</h3>
-                    <ul>
-                        <li>
-                            Own infra for global web/mobile; security hardening
-                            & incident response
-                        </li>
-                        <li>
-                            SaltStack for config; fewer manual steps, more
-                            consistency
-                        </li>
-                        <li>
-                            GitHub Actions pipelines; faster, more reliable
-                            releases
-                        </li>
-                    </ul>
-                </article>
-                <article>
-                    <h3>ChenMed — Sr. Systems Admin (2019–2023)</h3>
-                    <ul>
-                        <li>
-                            Patch automation: 2 weeks → 2 days; golden AMIs; IaC
-                            redeploys
-                        </li>
-                        <li>
-                            Multi-language pipelines
-                            (Java/Node/.NET/Python/iOS/Android)
-                        </li>
-                        <li>
-                            Right-sizing automation cut a multi-million AWS bill
-                        </li>
-                    </ul>
-                </article>
-                <article>
-                    <h3>University of Miami — Systems Admin (2014–2019)</h3>
-                    <ul>
-                        <li>
-                            Unix/Storage admin across Dell/EMC/IBM/NetApp; AIX &
-                            SAN fabrics
-                        </li>
-                    </ul>
-                </article>
+            <!-- Optional below-the-fold content -->
+            <section class="section">
+                <div class="grid">
+                    <div class="card col-6">
+                        <h2>Highlights</h2>
+                        <ul>
+                            <li>
+                                ~15% AWS cost reduction via rightsizing &
+                                S3/CloudFront cleanup.
+                            </li>
+                            <li>
+                                Migrated CI/CD to GitHub Actions; faster, more
+                                reliable deploys.
+                            </li>
+                            <li>
+                                Datadog dashboards & alerts replacing PagerDuty;
+                                lower MTTR.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card col-6">
+                        <h2>Core Stack</h2>
+                        <div class="muted">
+                            AWS · Azure · GitHub Actions · SaltStack ·
+                            Terraform/OpenTofu · Docker/Kubernetes · Python ·
+                            Bash · PowerShell
+                        </div>
+                    </div>
+                    <div class="card col-12">
+                        <h2>Recent Role — Zumba, LLC</h2>
+                        <ul>
+                            <li>
+                                Managed AWS infra & LAMP; improved
+                                reliability/perf.
+                            </li>
+                            <li>
+                                Shifted CI/CD to GitHub Actions; reduced deploy
+                                friction & cost.
+                            </li>
+                            <li>
+                                Authored runbooks and automation to streamline
+                                ops & onboarding.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </section>
-        </main>
 
-        <footer class="wrap footer">
-            <small>© <span id="y"></span> Damian Ortega</small>
-        </footer>
-
+            <footer>
+                © <span id="y"></span> Damian Ortega · Built with Azure Static
+                Website
+            </footer>
+        </div>
         <script>
             document.getElementById("y").textContent = new Date().getFullYear();
         </script>
