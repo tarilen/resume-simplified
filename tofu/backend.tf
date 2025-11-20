@@ -1,3 +1,4 @@
+# Backend storage for terraform state locking
 terraform {
   backend "azurerm" {
     resource_group_name  = "tfstate-rg"

@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Damian Ortega - Digital Resume</title>
+        <link rel="stylesheet" href="styles.css" />
+        <!-- YAML parser -->
+        <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    </head>
+    <body>
+        <div class="terminal-wrap">
+            <div
+                class="terminal"
+                id="terminal"
+                role="application"
+                aria-label="Retro console resume"
+            >
+                <div class="header">
+                    <div class="dott"></div>
+                    <div class="dott"></div>
+                    <div class="dott"></div>
+                    <div class="title">resume:damian_ortega</div>
+                </div>
+
+                <div id="screen" class="screen" tabindex="0"></div>
+
+                <div class="help">
+                    Tip: type <span class="muted">help</span> for commands. Use
+                    <span class="muted">ls</span>,
+                    <span class="muted">cd</span>,
+                    <span class="muted">cat</span>,
+                    <span class="muted">panel</span>,
+                    <span class="muted">clear</span>. Content is loaded from
+                    <span class="yaml">/content/*.yaml</span>.
+                </div>
+            </div>
+        </div>
+        <div class="overlay" aria-hidden="true"></div>
+
+        <script>
+            // Virtual FS will only hold raw YAML files under /content
+            let FS = {
+                type: "dir",
+                children: {
+                    "readme.txt": {
+                        type: "file",
+                        content:
+                            "Welcome — content will be loaded from /content/*.yaml\nRun `help` to see available commands.",
+                    },
+                },
+            };
+
+            const terminal = document.getElementById("terminal");
+            const screen = document.getElementById("screen");
+            let cwd = [];
+            const history = [];
+            let historyIndex = -1;
+
+            // hidden input to help focus behavior
+            const hiddenInput = document.createElement("input");
+            hiddenInput.type = "text";
+            hiddenInput.autocapitalize = "off";
+            hiddenInput.autocomplete = "off";
+            hiddenInput.spellcheck = false;
+            hiddenInput.style.position = "fixed";
+            hiddenInput.style.opacity = 0;
+            hiddenInput.style.pointerEvents = "none";
+            hiddenInput.style.left = "-9999px";
+            document.body.appendChild(hiddenInput);
+
+            function placeCaretAtEnd(el) {
+                const range = document.createRange();
+                const sel = window.getSelection();
+                range.selectNodeContents(el);
+                range.collapse(false);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+
+            function scrollToBottom() {
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+            function pushLine(text, cls = "") {
+                const line = document.createElement("div");
+                line.className = "line";
+                if (cls) line.classList.add(cls);
+                line.textContent = text;
+                screen.appendChild(line);
+                scrollToBottom();
+            }
+            function pushLines(lines) {
+                for (const l of lines) pushLine(l);
+            }
+
+            function getPromptPath() {
+                return cwd.length === 0 ? "~" : "~/" + cwd.join("/");
+            }
+
+            function renderPrompt(prefill = "") {
+                const line = document.createElement("div");
+                line.className = "line prompt prompt-caret";
+                const meta = document.createElement("span");
+                meta.className = "meta";
+                meta.textContent = `guest@resume:${getPromptPath()}$`;
+                line.appendChild(meta);
+
+                const inputSpan = document.createElement("span");
+                inputSpan.className = "input";
+                inputSpan.contentEditable = true;
+                inputSpan.spellcheck = false;
+                inputSpan.style.outline = "none";
+                inputSpan.style.whiteSpace = "pre-wrap";
+                inputSpan.textContent = prefill;
+                line.appendChild(inputSpan);
+
+                // Note: no blinking cursor element per user request
+
+                inputSpan.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") {
+                        e.preventDefault();
+                        const cmd = inputSpan.textContent.trim();
+                        submitCommand(cmd);
+                    } else if (
+                        e.key === "ArrowUp" ||
+                        (e.ctrlKey && e.key === "p")
+                    ) {
+                        e.preventDefault();
+                        navigateHistory(-1, inputSpan);
+                    } else if (
+                        e.key === "ArrowDown" ||
+                        (e.ctrlKey && e.key === "n")
+                    ) {
+                        e.preventDefault();
+                        navigateHistory(1, inputSpan);
+                    } else if (e.key === "Tab") {
+                        e.preventDefault();
+                        performTabCompletion(inputSpan);
+                    }
+                });
+
+                line.addEventListener("click", () => {
+                    inputSpan.focus();
+                    placeCaretAtEnd(inputSpan);
+                });
+
+                screen.appendChild(line);
+                scrollToBottom();
+                inputSpan.focus();
+                placeCaretAtEnd(inputSpan);
+            }
+
+            function navigateHistory(dir, inputSpan) {
+                if (history.length === 0) return;
+                historyIndex = Math.max(
+                    -1,
+                    Math.min(history.length - 1, historyIndex + dir),
+                );
+                const idx = historyIndex;
+                inputSpan.textContent = idx === -1 ? "" : history[idx];
+                placeCaretAtEnd(inputSpan);
+            }
+
+            function submitCommand(raw) {
+                const prompts = screen.querySelectorAll(".prompt");
+                if (prompts.length) {
+                    const last = prompts[prompts.length - 1];
+                    const inputSpan = last.querySelector(".input");
+                    inputSpan.contentEditable = "false";
+                }
+                if (raw.length > 0) {
+                    history.unshift(raw);
+                    historyIndex = -1;
+                }
+                processCommand(raw);
+            }
+
+            // FS utilities
+            function resolvePath(pathStr) {
+                if (!pathStr || pathStr.trim() === "") return cwd.slice();
+                const parts = pathStr.split("/").filter((p) => p !== "");
+                let result = pathStr.startsWith("/") ? [] : cwd.slice();
+                for (const p of parts) {
+                    if (p === ".") continue;
+                    if (p === "..") {
+                        if (result.length > 0) result.pop();
+                    } else if (p === "~") result = [];
+                    else result.push(p);
+                }
+                return result;
+            }
+            function getNode(pathArr) {
+                let node = FS;
+                for (const seg of pathArr) {
+                    if (!node.children || !node.children[seg]) return null;
+                    node = node.children[seg];
+                }
+                return node;
+            }
+            function listDir(pathArr) {
+                const node = getNode(pathArr);
+                if (!node || node.type !== "dir") return null;
+                return Object.keys(node.children)
+                    .sort((a, b) => {
+                        const A = node.children[a],
+                            B = node.children[b];
+                        if (A.type === B.type) return a.localeCompare(b);
+                        return A.type === "dir" ? -1 : 1;
+                    })
+                    .map((name) => ({ name, node: node.children[name] }));
+            }
+
+            // Tab completion (simple)
+            function performTabCompletion(inputSpan) {
+                const value = inputSpan.textContent || "";
+                const parts = value.trim().split(/\s+/);
+                const last = parts.pop() || "";
+                const prefix = value.endsWith(" ") ? "" : last;
+                const cmds = [
+                    "ls",
+                    "cd",
+                    "cat",
+                    "panel",
+                    "help",
+                    "clear",
+                    "pwd",
+                ];
+                let completions = [];
+                if (parts.length === 0) {
+                    completions = cmds.filter((c) => c.startsWith(prefix));
+                } else {
+                    // filename completion in cwd
+                    const list = listDir(cwd) || [];
+                    completions = list
+                        .map((i) => i.name)
+                        .filter((n) => n.startsWith(prefix));
+                }
+                if (completions.length === 1) {
+                    const newVal =
+                        (parts.length ? parts.join(" ") + " " : "") +
+                        completions[0] +
+                        (completeIsDir(completions[0]) ? "/" : "");
+                    inputSpan.textContent = newVal;
+                    placeCaretAtEnd(inputSpan);
+                } else if (completions.length > 1) {
+                    pushLine(completions.join("    "));
+                    renderPrompt(value);
+                }
+            }
+            function completeIsDir(name) {
+                const node = getNode(cwd.concat([name]));
+                return node && node.type === "dir";
+            }
+
+            // Command processing
+            function processCommand(raw) {
+                const parts = raw.trim().split(/\s+/).filter(Boolean);
+                const cmd = parts[0] ? parts[0].toLowerCase() : "";
+                const args = parts.slice(1);
+                switch (cmd) {
+                    case "":
+                        renderPrompt();
+                        break;
+                    case "help":
+                        pushLines([
+                            "Available commands:",
+                            "  ls [path]        List directory contents",
+                            "  cd [dir]         Change directory (cd .. to go up)",
+                            "  cat <file>       Show file contents (raw for YAML files)",
+                            "  panel <name>     Render a YAML panel from /content/<name>.yaml",
+                            "  pwd              Show current directory",
+                            "  clear            Clear the screen",
+                            "  help             Show this help",
+                        ]);
+                        renderPrompt();
+                        break;
+                    case "pwd":
+                        pushLine(getPromptPath());
+                        renderPrompt();
+                        break;
+                    case "clear":
+                        screen.innerHTML = "";
+                        renderPrompt();
+                        break;
+                    case "ls": {
+                        const target = args[0]
+                            ? resolvePath(args[0])
+                            : cwd.slice();
+                        const list = listDir(target);
+                        if (list === null)
+                            pushLine(
+                                `ls: cannot access '${args[0] || ""}': No such directory`,
+                            );
+                        else {
+                            const formatted = list
+                                .map((item) =>
+                                    item.node.type === "dir"
+                                        ? `${item.name}/`
+                                        : item.name,
+                                )
+                                .join("    ");
+                            pushLine(formatted);
+                        }
+                        renderPrompt();
+                        break;
+                    }
+                    case "cd": {
+                        const targetPath = args[0] ? args[0] : "~";
+                        const resolved = resolvePath(targetPath);
+                        const node = getNode(resolved);
+                        if (!node) {
+                            pushLine(
+                                `cd: ${targetPath}: No such file or directory`,
+                                "error",
+                            );
+                            renderPrompt();
+                        } else if (node.type !== "dir") {
+                            pushLine(
+                                `cd: ${targetPath}: Not a directory`,
+                                "error",
+                            );
+                            renderPrompt();
+                        } else {
+                            cwd = resolved;
+                            renderPrompt();
+                        }
+                        break;
+                    }
+                    case "cat": {
+                        if (args.length === 0) {
+                            pushLine("cat: missing operand", "error");
+                            renderPrompt();
+                            break;
+                        }
+                        const target = resolvePath(args[0]);
+                        const node = getNode(target);
+                        if (!node) {
+                            pushLine(`cat: ${args[0]}: No such file`, "error");
+                        } else if (node.type === "dir") {
+                            pushLine(
+                                `cat: ${args[0]}: Is a directory`,
+                                "error",
+                            );
+                        } else pushLines(node.content.split("\n"));
+                        renderPrompt();
+                        break;
+                    }
+                    case "panel": {
+                        if (args.length === 0) {
+                            pushLine(
+                                "panel: missing panel name (use the basename without extension)",
+                                "error",
+                            );
+                            renderPrompt();
+                            break;
+                        }
+                        const name = args[0].replace(/\.ya?ml$/i, "") + ".yaml";
+                        const node = getNode(["content", name]);
+                        if (!node) {
+                            pushLine(
+                                `panel: ${name} not found in /content`,
+                                "error",
+                            );
+                            renderPrompt();
+                            break;
+                        }
+                        try {
+                            const doc = jsyaml.load(node.content);
+                            // Render the YAML panel immediately
+                            pushLines(
+                                renderYamlPanel(doc, "content/" + name).split(
+                                    "\n",
+                                ),
+                            );
+                            // If this panel references a photo or is the 'about' panel,
+                            // attempt to render an ASCII version of the available image(s).
+                            const photoRef =
+                                doc.photo && typeof doc.photo === "string"
+                                    ? doc.photo.split("/").pop()
+                                    : "damian_profile_image.jpg";
+                            if (FS.images && FS.images[photoRef]) {
+                                // asynchronously convert the image blob to ASCII art
+                                asciiFromBlob(FS.images[photoRef], {
+                                    maxWidth: 64,
+                                })
+                                    .then((ascii) => {
+                                        pushLines(ascii.split("\n"));
+                                        renderPrompt();
+                                    })
+                                    .catch((err) => {
+                                        pushLine(
+                                            "panel: failed to convert image to ASCII",
+                                            "error",
+                                        );
+                                        renderPrompt();
+                                    });
+                                // return early; renderPrompt will be called in the promise handler
+                                break;
+                            }
+                        } catch (e) {
+                            pushLine(
+                                "panel: failed to parse YAML: " + String(e),
+                                "error",
+                            );
+                            renderPrompt();
+                            break;
+                        }
+                        renderPrompt();
+                        break;
+                    }
+                    default:
+                        pushLine(`${cmd}: command not found`, "error");
+                        renderPrompt();
+                        break;
+                }
+            }
+
+            // Render YAML panel into readable text (no side-effect files)
+            function renderYamlPanel(doc, sourcePath) {
+                if (!doc || typeof doc !== "object") return String(doc);
+                const out = [];
+                if (doc.header) {
+                    out.push(doc.header.trim());
+                    out.push("");
+                } else if (doc.title) {
+                    out.push("=== " + doc.title + " ===");
+                    out.push("");
+                }
+                if (doc.description) {
+                    out.push(doc.description.trim());
+                    out.push("");
+                }
+                if (doc.body) {
+                    out.push(doc.body.trim());
+                    out.push("");
+                }
+
+                if (doc.skills && typeof doc.skills === "object") {
+                    out.push("Skills:");
+                    for (const [group, items] of Object.entries(doc.skills)) {
+                        out.push(`  ${group}:`);
+                        for (const it of items) out.push(`    - ${it}`);
+                    }
+                    out.push("");
+                }
+
+                if (doc.items && Array.isArray(doc.items)) {
+                    out.push("Items:");
+                    for (const it of doc.items) {
+                        const nm = it.name || it.id || it.title || "(untitled)";
+                        let link = "";
+                        if (it.source) link = ` -> ${it.source}`;
+                        else if (it.href) link = ` -> ${it.href} (external)`;
+                        out.push(`  - ${nm}${link}`);
+                    }
+                    out.push("");
+                }
+
+                if (doc.references && Array.isArray(doc.references)) {
+                    out.push("References:");
+                    for (const r of doc.references) {
+                        const name = r.name || "(unknown)";
+                        const title = r.title ? `, ${r.title}` : "";
+                        out.push(`  - ${name}${title}`);
+                        if (r.linkedin)
+                            out.push(`      linkedin: ${r.linkedin}`);
+                        if (r.note) out.push(`      note: ${r.note}`);
+                    }
+                    out.push("");
+                }
+
+                if (doc.links && Array.isArray(doc.links)) {
+                    out.push("Links:");
+                    for (const l of doc.links) {
+                        const name = l.name || l.id || "(link)";
+                        if (l.source) out.push(`  - ${name} -> ${l.source}`);
+                        else if (l.href) out.push(`  - ${name} -> ${l.href}`);
+                    }
+                    out.push("");
+                }
+
+                if (out.length === 0) out.push(jsyaml.dump(doc));
+                out.push(`(source: ${sourcePath})`);
+                return out.join("\n");
+            }
+
+            // Small helper: convert an image Blob to a coarse ASCII art string.
+            // Returns a Promise<string>
+            function asciiFromBlob(blob, options = {}) {
+                const chars = options.chars || "@%#*+=-:. "; // densest -> lightest
+                const maxWidth = options.maxWidth || 48; // characters
+                return new Promise((resolve, reject) => {
+                    try {
+                        const url = URL.createObjectURL(blob);
+                        const img = new Image();
+                        img.crossOrigin = "anonymous";
+                        img.onload = () => {
+                            try {
+                                // preserve approximate aspect ratio; characters are taller than wide so scale height
+                                const ratio = img.height / img.width;
+                                const width = Math.max(
+                                    8,
+                                    Math.min(maxWidth, Math.round(maxWidth)),
+                                );
+                                const height = Math.max(
+                                    8,
+                                    Math.round(width * ratio * 0.5),
+                                );
+                                const canvas = document.createElement("canvas");
+                                canvas.width = width;
+                                canvas.height = height;
+                                const ctx = canvas.getContext("2d");
+                                ctx.drawImage(img, 0, 0, width, height);
+                                const data = ctx.getImageData(
+                                    0,
+                                    0,
+                                    width,
+                                    height,
+                                ).data;
+                                const rows = [];
+                                for (let y = 0; y < height; y++) {
+                                    let row = "";
+                                    for (let x = 0; x < width; x++) {
+                                        const i = (y * width + x) * 4;
+                                        const r = data[i],
+                                            g = data[i + 1],
+                                            b = data[i + 2];
+                                        const lum =
+                                            0.2126 * r +
+                                            0.7152 * g +
+                                            0.0722 * b;
+                                        const idx = Math.floor(
+                                            (1 - lum / 255) *
+                                                (chars.length - 1),
+                                        );
+                                        row += chars[idx];
+                                    }
+                                    rows.push(row);
+                                }
+                                URL.revokeObjectURL(url);
+                                resolve(rows.join("\n"));
+                            } catch (err) {
+                                URL.revokeObjectURL(url);
+                                reject(err);
+                            }
+                        };
+                        img.onerror = (e) => {
+                            URL.revokeObjectURL(url);
+                            reject(new Error("Image load error"));
+                        };
+                        img.src = url;
+                    } catch (err) {
+                        reject(err);
+                    }
+                });
+            }
+
+            // Treat some local file fetch responses as OK-ish (file:// quirks)
+            function okish(res) {
+                try {
+                    if (!res) return false;
+                    if (res.ok) return true;
+                    // On file:// some browsers yield status 0 or opaque and still allow body reads
+                    if (
+                        location.protocol === "file:" &&
+                        (res.status === 0 || res.type === "opaque")
+                    )
+                        return true;
+                } catch (e) {}
+                return false;
+            }
+
+            // Build FS by loading YAML files discovered from a manifest or a small fallback list.
+
+            async function buildFSFromContent() {
+                const base = "content/";
+                const manifestUrls = [
+                    "content/index.json",
+                    "content/list.json",
+                ];
+                let files = [];
+                // Try manifest first
+                for (const m of manifestUrls) {
+                    try {
+                        const r = await fetch(m, { cache: "no-store" });
+                        if (r.ok) {
+                            const body = await r.json();
+
+                            if (Array.isArray(body)) {
+                                files = body
+                                    .map((s) =>
+                                        String(s).replace(/^content\//i, ""),
+                                    )
+                                    .filter((s) => /\.ya?ml$/i.test(s));
+                                break;
+                            }
+                        }
+                    } catch (e) {}
+                }
+
+                // If no manifest, try a safe fallback of commonly-named panels.
+                if (files.length === 0) {
+                    const fallback = [
+                        "about.yaml",
+                        "skills.yaml",
+                        "references.yaml",
+                    ];
+                    for (const name of fallback) {
+                        try {
+                            const method =
+                                location.protocol === "file:" ? "GET" : "HEAD";
+                            const r = await fetch(base + name, { method });
+                            if (okish(r)) files.push(name);
+                        } catch (e) {}
+                    }
+                }
+
+                // If still empty, attempt to fetch directory index (some servers list it)
+                if (files.length === 0) {
+                    try {
+                        const r = await fetch(base);
+                        if (r.ok) {
+                            const html = await r.text();
+                            // crude extraction of hrefs to .yaml
+                            const matches = [
+                                ...html.matchAll(
+                                    /href=["']([^"']+\.ya?ml)["']/gi,
+                                ),
+                            ].map((m) => m[1]);
+                            for (const m of matches) {
+                                // normalize only basename or content/ prefix
+                                const bn = m.split("/").pop();
+                                if (bn && !files.includes(bn)) files.push(bn);
+                            }
+                        }
+                    } catch (e) {}
+                }
+
+                const contentDir = { type: "dir", children: {} };
+
+                for (const name of files) {
+                    try {
+                        const res = await fetch(base + name);
+
+                        if (!okish(res)) continue;
+                        const raw = await res.text();
+
+                        contentDir.children[name] = {
+                            type: "file",
+
+                            content: raw,
+                        };
+                    } catch (e) {}
+                }
+
+                // Attempt to fetch a profile image if present (common filename)
+                const images = {};
+                const imageCandidates = [
+                    "damian_profile_image.jpg",
+                    "profile.jpg",
+                    "photo.jpg",
+                ];
+                for (const imgName of imageCandidates) {
+                    try {
+                        const r = await fetch(base + imgName);
+                        if (r.ok) {
+                            const blob = await r.blob();
+                            images[imgName] = blob;
+                        }
+                    } catch (e) {
+                        // ignore missing images
+                    }
+                }
+
+                FS.children["content"] = contentDir;
+                FS.images = images;
+
+                pushLine("Loaded content files:");
+                const names = Object.keys(contentDir.children);
+                if (names.length) {
+                    pushLine(names.join("    "));
+                    pushLine("");
+                    pushLine(
+                        "Use `ls content` to view files, `cat content/<file>` for raw YAML, or `panel <name>` to render. If an image was found it can be rendered as ASCII by `panel about`.",
+                    );
+                } else {
+                    pushLine("(no YAML files found under /content)");
+                }
+
+                // list discovered images
+                const imgNames = Object.keys(images);
+                if (imgNames.length) {
+                    pushLine("");
+                    pushLine("Images available:");
+                    pushLine(imgNames.join("    "));
+                }
+
+                renderPrompt();
+            }
+
+            pushLines([
+                "resume-console v0.3 — interactive resume (YAML-sourced)",
+
+                "Attempting to load YAML panels from /content ...",
+
+                "",
+            ]);
+
+            if (location.protocol === "file:") {
+                pushLines([
+                    "Hint: This page is opened via file:// and some browsers block fetch/HEAD for local files.",
+                    "If panels don't appear, serve the folder with a simple HTTP server (e.g. python -m http.server),",
+                    "or ensure a content/index.json manifest is present. The loader accepts names with or without 'content/'.",
+                    "",
+                ]);
+            }
+
+            // Launch loader
+            buildFSFromContent().catch((err) => {
+                pushLine(
+                    "Warning: failed to load content: " + String(err),
+                    "error",
+                );
+                renderPrompt();
+            });
+
+            // focus behavior
+            document.addEventListener("click", () => {
+                const prompts = screen.querySelectorAll(".prompt");
+                if (prompts.length) {
+                    const last = prompts[prompts.length - 1];
+                    const input = last.querySelector(".input");
+                    if (input) {
+                        input.focus();
+                        placeCaretAtEnd(input);
+                        return;
+                    }
+                }
+                hiddenInput.focus();
+            });
+
+            document.addEventListener("keydown", (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "l") {
+                    e.preventDefault();
+                    screen.innerHTML = "";
+                    renderPrompt();
+                }
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "c") {
+                    const prompts = screen.querySelectorAll(".prompt");
+                    if (prompts.length) {
+                        const last = prompts[prompts.length - 1];
+                        const input = last.querySelector(".input");
+                        if (input && input.isContentEditable) {
+                            pushLine("^C");
+                            input.textContent = "";
+                            renderPrompt();
+                        }
+                    }
+                }
+            });
+
+            window.addEventListener("load", () => {
+                const prompts = screen.querySelectorAll(".prompt");
+                if (prompts.length) {
+                    const last = prompts[prompts.length - 1];
+                    const input = last.querySelector(".input");
+                    if (input) input.focus();
+                }
+            });
+        </script>
+    </body>
+</html>

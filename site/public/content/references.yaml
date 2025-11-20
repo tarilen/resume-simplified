@@ -1,0 +1,62 @@
+title: "Professional References"
+header: |
+  ┌───────────────────────────────────────────────┐
+  │            Professional References            │
+  │               Damian Ortega · DevOps / SRE    │
+  └───────────────────────────────────────────────┘
+description: |
+  Trusted colleagues and leaders who can speak to my work in operations,
+  automation, and reliability engineering.  Links include public LinkedIn
+  profiles where available.
+references:
+  - name: "Michael Trogman"
+    title: "Director of IT"
+    relationship: "Former manager"
+    linkedin: "https://www.linkedin.com/in/michael-trogman/"
+    note: "Can speak to systems migration and platform reliability work."
+  - name: "Alejandro Schmidt"
+    title: "Senior Platform Engineer"
+    relationship: "Peer / collaborator"
+    linkedin: "https://www.linkedin.com/in/alejandro-schmidt-8905b7183/"
+    note: "Worked together on CI/CD and infra-as-code projects."
+  - name: "Franklin Reyes"
+    title: "DevOps Engineer"
+    relationship: "Collaborator"
+    linkedin: "https://www.linkedin.com/in/franklin-jesus-reyes/"
+    note: "Collaborated on observability and automation initiatives."
+  - name: "Alex Johnson"
+    title: "VP of Engineering"
+    relationship: "Leadership reference"
+    linkedin: "https://www.linkedin.com/in/alex-johnson-example/"
+    note: "Can attest to team leadership and delivery outcomes."
+links:
+  - name: "Back to Menu"
+    id: "menu"
+    type: "panel"
+    source: "content/menu.yaml"
+  - name: "About Me"
+    id: "about"
+    type: "panel"
+    source: "content/about.yaml"
+  - name: "Technical Skills"
+    id: "skills"
+    type: "panel"
+    source: "content/skills.yaml"
+  - name: "Resume (PDF)"
+    id: "resume"
+    type: "external"
+    href: "../Damian-Ortega-Engineer.pdf"
+visual:
+  font: "VT323, JetBrains Mono, monospace"
+  palette:
+    background: "#071524"
+    key: "#9ff59f"
+    link: "#7fe6ff"
+    delim: "#98a6b8"
+    dim: "#7a6f5a"
+  ascii_frame: true
+  show_delimiters: true
+meta:
+  format_version: 1
+  generated_by: "references.yaml"
+  last_updated: 2025-11-13

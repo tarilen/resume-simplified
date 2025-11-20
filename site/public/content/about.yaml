@@ -1,0 +1,84 @@
+title: "About Me"
+header: |
+  ┌───────────────────────────────────────────────┐
+  │                Damian Ortega                  │
+  │               DevOps / SRE · he/him           │
+  └───────────────────────────────────────────────┘
+description: |
+  Short biography and approach — presented as YAML for a playful, config-like UX.
+body: |
+  I’m a DevOps/SRE engineer with 15 years working across cloud and on-prem environments.
+  I specialize in CI/CD, observability, and automation—turning messy systems into tidy
+  pipelines that run fast and cost-effectively. Comfortable in AWS & Azure; happiest
+  when dashboards are green and bills trend down.
+
+  I build collaborative teams, mentor peers, and invest in coaching, feedback, and
+  knowledge sharing to help others grow and succeed.
+
+notes: |
+  - This panel is authored as YAML to match the retro-console theme.
+  - The UI will render the `body` block as preformatted content inside the YAML panel.
+  - A profile photo is available at `content/damian_profile_image.jpg`. The panel can
+    render a colored HTML ASCII fragment via `photo_html` when present.
+
+photo_html: |
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>ASCII Art - ascii_art_1763157666788</title>
+      <style>
+          body {
+              margin: 0;
+              padding: 20px;
+              background-color: #000;
+              color: #fff;
+              font-family: monospace;
+              font-size: 12px;
+              line-height: 1.2;
+              white-space: pre;
+              overflow: auto;
+          }
+          .ascii-container {
+              display: inline-block;
+          }
+      </style>
+  </head>
+  <body>
+      <div class="ascii-container"><span style="color: rgb(108, 165, 218); ">+</span><span style="color: rgb(105, 166, 218); ">+</span><span style="color: rgb(107, 166, 216); ">+</span><span style="color: rgb(108, 165, 218); ">+</span><span style="color: rgb(106, 166, 218); ">+</span><span style="color: rgb(108, 167, 217); ">+</span><span style="color: rgb(108, 168, 219); ">+</span><span style="color: rgb(107, 168, 220); ">+</span><span style="color: rgb(108, 169, 220); ">+</span><span style="color: rgb(108, 169, 220); ">+</span><span style="color: rgb(109, 169, 221); ">+</span><span style="color: rgb(107, 169, 220); ">+</span><span style="color: rgb(108, 170, 218); ">+</span><span style="color: rgb(109, 170, 219); ">+</span><span style="color: rgb(110, 170, 220); ">+</span><span style="color: rgb(112, 170, 219); ">+</span><span style="color: rgb(124, 165, 204); ">+</span><span style="color: rgb(115, 170, 216); ">+</span><span style="color: rgb(110, 170, 218); ">+</span><span style="color: rgb(110, 171, 219); ">+</span><span style="color: rgb(110, 172, 219); ">+</span><span style="color: rgb(110, 171, 219); ">+</span><span style="color: rgb(119, 171, 212); ">+</span><span style="color: rgb(114, 106, 97); ">-</span><span style="color: rgb(183, 166, 144); ">+</span><span style="color: rgb(156, 141, 113); ">+</span><span style="color: rgb(114, 103, 81); ">-</span><span style="color: rgb(99, 89, 82); ">-</span><span style="color: rgb(132, 147, 156); ">+</span><span style="color: rgb(112, 172, 217); ">+</span><span style="color: rgb(110, 173, 220); ">+</span><span style="color: rgb(109, 173, 222); ">+</span><span style="color: rgb(109, 173, 220); ">+</span><span style="color: rgb(109, 173, 221); ">+</span><span style="color: rgb(109, 173, 221); ">+</span><span style="color: rgb(109, 174, 219); ">+</span><span style="color: rgb(119, 172, 215); ">+</span><span style="color: rgb(116, 172, 215); ">+</span><span style="color: rgb(109, 173, 220); ">+</span><span style="color: rgb(110, 174, 220); ">+</span><span style="color: rgb(109, 175, 221); ">+</span><span style="color: rgb(130, 183, 223); ">*</span><span style="color: rgb(196, 217, 230); ">#</span><span style="color: rgb(152, 193, 222); ">*</span><span style="color: rgb(114, 176, 221); ">+</span><span style="color: rgb(110, 174, 221); ">+</span><span style="color: rgb(111, 174, 222); ">+</span><span style="color: rgb(107, 174, 220); ">+</span><span style="color: rgb(106, 174, 221); ">+</span><span style="color: rgb(105, 175, 222); ">+</span><span style="color: rgb(106, 175, 222); ">+</span><span style="color: rgb(111, 172, 223); ">+</span><span style="color: rgb(103, 116, 136); ">=</span><span style="color: rgb(96, 92, 89); ">-</span><span style="color: rgb(109, 102, 97); ">-</span><span style="color: rgb(146, 138, 120); ">=</span><span style="color: rgb(193, 182, 157); ">*</span><span style="color: rgb(175, 161, 135); ">+</span><span style="color: rgb(206, 199, 160); ">*</span><span style="color: rgb(217, 212, 181); ">#</span><span style="color: rgb(198, 189, 145); ">*</span><span style="color: rgb(156, 138, 110); ">=</span><span style="color: rgb(63, 50, 42); ">.</span><span style="color: rgb(70, 58, 52); ">:</span><span style="color: rgb(59, 48, 43); ">.</span><span style="color: rgb(47, 39, 33); ">.</span><span style="color: rgb(44, 37, 31); ">.</span><span style="color: rgb(51, 44, 38); ">.</span><span style="color: rgb(53, 50, 47); ">.</span><span style="color: rgb(52, 64, 69); ">:</span><span style="color: rgb(58, 81, 97); ">:</span><span style="color: rgb(105, 159, 196); ">+</span><span style="color: rgb(96, 173, 221); ">+</span><span style="color: rgb(92, 174, 220); ">+</span><span style="color: rgb(94, 175, 221); ">+</span><span style="color: rgb(95, 175, 221); ">+</span><span style="color: rgb(94, 175, 220); ">+</span><span style="color: rgb(93, 175, 222); ">+</span><span style="color: rgb(91, 176, 221); ">+</span><span style="color: rgb(91, 175, 221); ">+</span></div>
+  </body>
+  </html>
+
+links:
+  - name: "Technical Skills"
+    id: "skills"
+    type: "panel"
+    source: "content/skills.yaml"
+    hint: "view-skills"
+  - name: "Professional References"
+    id: "references"
+    type: "panel"
+    source: "content/references.yaml"
+    hint: "view-contacts"
+  - name: "Resume (PDF)"
+    id: "resume"
+    type: "external"
+    href: "../Damian-Ortega-Engineer.pdf"
+    hint: "opens-resume"
+
+visual:
+  font: "VT323, JetBrains Mono, monospace"
+  palette:
+    background: "#071524"
+    key: "#9ff59f"
+    link: "#7fe6ff"
+    delim: "#98a6b8"
+    dim: "#7a6f5a"
+  ascii_frame: true
+  show_delimiters: true
+
+meta:
+  format_version: 1
+  generated_by: "about.yaml"
+  last_updated: 2025-11-13
