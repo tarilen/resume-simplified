@@ -37,11 +37,9 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Install OpenTofu
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y curl gpg
-          curl -fsSL https://get.opentofu.org | sudo bash -s -- --install-method deb
-          tofu version
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: "1.6.0"
 
       - name: Init/Apply OpenTofu
         working-directory: tofu
