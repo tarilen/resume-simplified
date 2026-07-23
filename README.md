@@ -1,11 +1,13 @@
-# Resume Site (Azure Static Website via OpenTofu)
+# Resume Site (Azure Static Web App via OpenTofu)
+
+**Live:** https://yellow-beach-03778770f.7.azurestaticapps.net
 
 ## Secrets you’ll need on the repo
 
 AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_SUBSCRIPTION_ID
-Create an Azure AD app with Federated Credentials for GitHub OIDC (no client secret needed). Assign it “Storage Blob Data Contributor” on the storage account scope and “Contributor” on the RG/subscription for provisioning.
+Create an Azure AD app with Federated Credentials for GitHub OIDC (no client secret needed). Assign it “Contributor” on the RG/subscription for provisioning, plus “Storage Blob Data Contributor” on the OpenTofu **state** storage account (`tfstateresumesimplified`) so CI can read/write remote state.
 
-(Tip: the workflow prints the final static website URL in the logs.)
+(Tip: the workflow prints the final site URL in the logs.)
 
 ## Prereqs
 - Azure subscription + permissions
