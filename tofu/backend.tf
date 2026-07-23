@@ -5,6 +5,6 @@ terraform {
     storage_account_name = "tfstateresumesimplified"
     container_name       = "tfstate"
     key                  = "resume-site/tofu.tfstate"
-    use_oidc             =  true
+    use_oidc             = true
   }
 }

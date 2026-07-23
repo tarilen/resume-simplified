@@ -3,10 +3,120 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Damian Ortega - Digital Resume</title>
+        <title>Damian Ortega — Resume Terminal</title>
+        <meta
+            name="description"
+            content="Interactive terminal resume for Damian Ortega, DevOps / Systems Engineer."
+        />
         <link rel="stylesheet" href="styles.css" />
-        <!-- YAML parser -->
-        <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+
+        <!-- Single source of truth for all resume content -->
+        <script type="application/json" id="resume-data">
+            {
+                "name": "Damian Ortega",
+                "title": "DevOps / Systems Engineer",
+                "contact": {
+                    "email": "damian.ortega@gmail.com",
+                    "phone": "786-414-0117",
+                    "location": "Tamarac, FL",
+                    "linkedin": "https://www.linkedin.com/in/damian-ortega"
+                },
+                "summary": "Results-driven DevOps and Systems Engineer with 15+ years of experience spanning enterprise infrastructure, endpoint management, cloud operations, and CI/CD automation. Proven track record of building scalable systems, driving compliance initiatives, and delivering automation that reduces operational burden across hybrid environments. Adept at bridging the gap between traditional sysadmin work and modern DevOps practices.",
+                "skills": {
+                    "Scripting": ["Python", "Bash", "PowerShell"],
+                    "Endpoint Management": ["Intune", "NinjaOne", "Ivanti", "CrowdStrike Falcon"],
+                    "Cloud Platforms": ["AWS", "Azure"],
+                    "Automation & CI/CD": ["GitHub Actions", "Jenkins", "Azure Pipelines", "Bitbucket", "Octopus", "CloudFormation", "Terraform", "SaltStack", "Fastlane"],
+                    "Containers & Orchestration": ["Docker", "Kubernetes", "Kamal", "Azure Container Apps"],
+                    "Monitoring & Observability": ["Datadog", "New Relic", "LogicMonitor", "SolarWinds", "Graylog"],
+                    "Secrets Management": ["AWS Secrets Manager", "Vault", "Etcd", "1Password"],
+                    "Operating Systems": ["Linux (CentOS, RHEL, Ubuntu, UNIX)", "Windows Server (2008-2019)", "Windows 11"],
+                    "Identity & Security": ["Microsoft Entra ID", "Hybrid AD/Exchange", "Zscaler", "CrowdStrike", "Active Directory"],
+                    "Storage & Networking": ["IBM SAN/NAS", "Dell EMC", "NetApp", "HP", "Cisco MDS"]
+                },
+                "experience": [
+                    {
+                        "slug": "hayes-locums",
+                        "company": "Hayes Locums",
+                        "role": "Senior Systems Administrator",
+                        "start": "Nov 2025",
+                        "end": "Present",
+                        "bullets": [
+                            "Managed and maintained a fleet of 300+ Dell laptops for 300+ users, overseeing patching, troubleshooting, and endpoint configuration via Intune and NinjaOne.",
+                            "Authored PowerShell automation scripts to remediate common issues and streamline repetitive operational tasks, significantly reducing manual workload for the help desk.",
+                            "Cut per-device onboarding time for new workstations by approximately one full day by automating the imaging and patch-to-current workflow.",
+                            "Deployed self-service automation shortcuts in the Windows taskbar, enabling end users to resolve common issues without opening a service request or contacting the help desk.",
+                            "Enforced BIOS-level security across the fleet using Dell Command Configure for standardized BIOS profiles and Dell Command Update for managed firmware update cadences.",
+                            "Implemented CrowdStrike Falcon Sensor deployment as a hard compliance requirement, integrated into the workstation re-imaging process for all endpoints prior to use.",
+                            "Deployed containerized applications to Azure Container Apps via Azure Pipelines, including email routing and PDF processing services, configuring deployments through environment variables using pre-built Docker images.",
+                            "Monitored server infrastructure observability across Azure and on-premises environments using New Relic and LogicMonitor, managing a fleet of ~30 servers.",
+                            "Administered Azure cloud resources and managed DNS and CDN infrastructure via AWS.",
+                            "Maintained hybrid identity and messaging environment using Microsoft Entra ID and a hybrid Exchange/Active Directory setup.",
+                            "Utilized Zscaler for secure remote access, traffic inspection, and network visibility across the endpoint fleet."
+                        ]
+                    },
+                    {
+                        "slug": "zumba",
+                        "company": "Zumba, LLC",
+                        "role": "DevOps Engineer",
+                        "start": "May 2023",
+                        "end": "Dec 2025",
+                        "bullets": [
+                            "Operated as part of a small, agile DevOps team managing infrastructure for Zumba's global website and mobile applications.",
+                            "Orchestrated infrastructure with SaltStack, improving consistency and reducing manual intervention.",
+                            "Enhanced CI/CD pipelines using GitHub Actions, replacing legacy CI systems and improving build reliability.",
+                            "Authored Dockerfiles and entrypoint scripts to build and configure containerized services for deployment.",
+                            "Integrated Datadog for observability and on-call management, enabling the team to detect and respond to incidents before users are impacted.",
+                            "Led incident response and root-cause analysis to improve reliability.",
+                            "Identified AWS cost optimizations and improved environment security posture.",
+                            "Authored internal DevOps documentation to streamline onboarding and operations."
+                        ]
+                    },
+                    {
+                        "slug": "chenmed",
+                        "company": "ChenMed, LLC",
+                        "role": "Senior Systems Administrator",
+                        "start": "Dec 2019",
+                        "end": "May 2023",
+                        "bullets": [
+                            "Led a complete patching process overhaul via automation, cutting patching time from 2 weeks to 2 days.",
+                            "Moved Infrastructure-as-Code environments into Kubernetes with init containers and master Helm charts.",
+                            "Automated operational tasks with Jenkins, AWS Lambda, Python, and PowerShell, reducing manual work.",
+                            "Developed CI/CD pipelines for Java, Node.js, .NET, Python, iOS, and Android, eliminating hours of manual artifact uploads and job execution per deployment cycle.",
+                            "Transformed legacy apps to modern CloudFormation-based IaC design.",
+                            "Automated AWS cost optimization with right-sizing scripts, reducing monthly infrastructure spend by tens of thousands of dollars.",
+                            "Helped the company achieve NIST 3.0 certification in under three months."
+                        ]
+                    },
+                    {
+                        "slug": "university-of-miami-sysadmin",
+                        "company": "University of Miami",
+                        "role": "Systems Administrator",
+                        "start": "Jun 2014",
+                        "end": "Dec 2019",
+                        "bullets": [
+                            "Supported Storage and Unix systems, maintaining AIX, RHEL, and SUSE Linux environments.",
+                            "Managed SAN infrastructure (Dell, EMC, IBM, NetApp) and Cisco MDS networking.",
+                            "Implemented and maintained enterprise storage strategies and configurations.",
+                            "Provided server-level support, upgrades, and configuration for AIX HACMP clusters."
+                        ]
+                    },
+                    {
+                        "slug": "university-of-miami-desktop",
+                        "company": "University of Miami",
+                        "role": "Desktop Support Technician",
+                        "start": "Aug 2009",
+                        "end": "Jun 2014",
+                        "bullets": [
+                            "Provided Tier 1/2 support for users across university systems.",
+                            "Managed Active Directory, Office 365 migrations, and network share configurations.",
+                            "Maintained ServiceNow ticket queues and ensured timely resolution of incidents."
+                        ]
+                    }
+                ],
+                "references": "References available upon request."
+            }
+        </script>
     </head>
     <body>
         <div class="terminal-wrap">
@@ -14,181 +124,117 @@
                 class="terminal"
                 id="terminal"
                 role="application"
-                aria-label="Retro console resume"
+                aria-label="Interactive resume terminal"
             >
                 <div class="header">
-                    <div class="dott"></div>
-                    <div class="dott"></div>
-                    <div class="dott"></div>
-                    <div class="title">resume:damian_ortega</div>
+                    <div class="dots">
+                        <span class="dott"></span>
+                        <span class="dott"></span>
+                        <span class="dott"></span>
+                    </div>
+                    <div class="title">guest@ortega — resume</div>
+                    <button
+                        class="doc-btn"
+                        id="open-doc"
+                        type="button"
+                        title="View the whole resume as one page"
+                    >
+                        ▤ full resume
+                    </button>
                 </div>
 
                 <div id="screen" class="screen" tabindex="0"></div>
 
                 <div class="help">
-                    Tip: type <span class="muted">help</span> for commands. Use
-                    <span class="muted">ls</span>,
-                    <span class="muted">cd</span>,
-                    <span class="muted">cat</span>,
-                    <span class="muted">panel</span>,
-                    <span class="muted">clear</span>. Content is loaded from
-                    <span class="yaml">/content/*.yaml</span>.
+                    Try
+                    <span class="muted">help</span>,
+                    <span class="muted">about</span>,
+                    <span class="muted">skills</span>,
+                    <span class="muted">experience</span>,
+                    <span class="muted">contact</span>, or
+                    <span class="muted">resume</span> to view it all at once.
                 </div>
             </div>
         </div>
-        <div class="overlay" aria-hidden="true"></div>
+
+        <!-- Full-resume document overlay -->
+        <div
+            class="doc-overlay"
+            id="doc-overlay"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Full resume"
+            hidden
+        >
+            <div class="doc-toolbar">
+                <button class="doc-action" id="print-doc" type="button">⇩ Save as PDF</button>
+                <button class="doc-action doc-close" id="close-doc" type="button">✕ Close</button>
+            </div>
+            <div class="doc-scroll">
+                <article class="resume-doc" id="resume-doc"></article>
+            </div>
+        </div>
+
+        <div class="scanlines" aria-hidden="true"></div>
 
         <script>
-            // Virtual FS will only hold raw YAML files under /content
-            let FS = {
-                type: "dir",
-                children: {
-                    "readme.txt": {
-                        type: "file",
-                        content:
-                            "Welcome — content will be loaded from /content/*.yaml\nRun `help` to see available commands.",
-                    },
-                },
-            };
+            "use strict";
 
-            const terminal = document.getElementById("terminal");
+            // ---- Resume data (single source of truth) --------------------
+            const DATA = JSON.parse(
+                document.getElementById("resume-data").textContent,
+            );
+
             const screen = document.getElementById("screen");
-            let cwd = [];
-            const history = [];
-            let historyIndex = -1;
+            const terminal = document.getElementById("terminal");
 
-            // hidden input to help focus behavior
-            const hiddenInput = document.createElement("input");
-            hiddenInput.type = "text";
-            hiddenInput.autocapitalize = "off";
-            hiddenInput.autocomplete = "off";
-            hiddenInput.spellcheck = false;
-            hiddenInput.style.position = "fixed";
-            hiddenInput.style.opacity = 0;
-            hiddenInput.style.pointerEvents = "none";
-            hiddenInput.style.left = "-9999px";
-            document.body.appendChild(hiddenInput);
-
-            function placeCaretAtEnd(el) {
-                const range = document.createRange();
-                const sel = window.getSelection();
-                range.selectNodeContents(el);
-                range.collapse(false);
-                sel.removeAllRanges();
-                sel.addRange(range);
-            }
+            // ---- Helpers -------------------------------------------------
+            const esc = (s) =>
+                String(s)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;");
 
             function scrollToBottom() {
                 terminal.scrollTop = terminal.scrollHeight;
             }
-            function pushLine(text, cls = "") {
-                const line = document.createElement("div");
-                line.className = "line";
-                if (cls) line.classList.add(cls);
-                line.textContent = text;
-                screen.appendChild(line);
+
+            // Append a block of output. `html` may contain markup we built.
+            function print(html = "", cls = "") {
+                const block = document.createElement("div");
+                block.className = "output" + (cls ? " " + cls : "");
+                block.innerHTML = html;
+                screen.appendChild(block);
                 scrollToBottom();
             }
-            function pushLines(lines) {
-                for (const l of lines) pushLine(l);
+
+            function fmtRange(job) {
+                return `${job.start} – ${job.end}`;
             }
 
-            function getPromptPath() {
-                return cwd.length === 0 ? "~" : "~/" + cwd.join("/");
-            }
-
-            function renderPrompt(prefill = "") {
-                const line = document.createElement("div");
-                line.className = "line prompt prompt-caret";
-                const meta = document.createElement("span");
-                meta.className = "meta";
-                meta.textContent = `guest@resume:${getPromptPath()}$`;
-                line.appendChild(meta);
-
-                const inputSpan = document.createElement("span");
-                inputSpan.className = "input";
-                inputSpan.contentEditable = true;
-                inputSpan.spellcheck = false;
-                inputSpan.style.outline = "none";
-                inputSpan.style.whiteSpace = "pre-wrap";
-                inputSpan.textContent = prefill;
-                line.appendChild(inputSpan);
-
-                // Note: no blinking cursor element per user request
-
-                inputSpan.addEventListener("keydown", (e) => {
-                    if (e.key === "Enter") {
-                        e.preventDefault();
-                        const cmd = inputSpan.textContent.trim();
-                        submitCommand(cmd);
-                    } else if (
-                        e.key === "ArrowUp" ||
-                        (e.ctrlKey && e.key === "p")
-                    ) {
-                        e.preventDefault();
-                        navigateHistory(-1, inputSpan);
-                    } else if (
-                        e.key === "ArrowDown" ||
-                        (e.ctrlKey && e.key === "n")
-                    ) {
-                        e.preventDefault();
-                        navigateHistory(1, inputSpan);
-                    } else if (e.key === "Tab") {
-                        e.preventDefault();
-                        performTabCompletion(inputSpan);
-                    }
-                });
-
-                line.addEventListener("click", () => {
-                    inputSpan.focus();
-                    placeCaretAtEnd(inputSpan);
-                });
-
-                screen.appendChild(line);
-                scrollToBottom();
-                inputSpan.focus();
-                placeCaretAtEnd(inputSpan);
-            }
-
-            function navigateHistory(dir, inputSpan) {
-                if (history.length === 0) return;
-                historyIndex = Math.max(
-                    -1,
-                    Math.min(history.length - 1, historyIndex + dir),
-                );
-                const idx = historyIndex;
-                inputSpan.textContent = idx === -1 ? "" : history[idx];
-                placeCaretAtEnd(inputSpan);
-            }
-
-            function submitCommand(raw) {
-                const prompts = screen.querySelectorAll(".prompt");
-                if (prompts.length) {
-                    const last = prompts[prompts.length - 1];
-                    const inputSpan = last.querySelector(".input");
-                    inputSpan.contentEditable = "false";
+            // ---- Virtual filesystem (mirrors the resume sections) --------
+            function buildFS() {
+                const expChildren = {};
+                for (const job of DATA.experience) {
+                    expChildren[job.slug + ".txt"] = {
+                        type: "file",
+                        render: () => renderJob(job),
+                    };
                 }
-                if (raw.length > 0) {
-                    history.unshift(raw);
-                    historyIndex = -1;
-                }
-                processCommand(raw);
+                return {
+                    type: "dir",
+                    children: {
+                        "about.txt": { type: "file", render: renderAbout },
+                        "skills.txt": { type: "file", render: renderSkills },
+                        "contact.txt": { type: "file", render: renderContact },
+                        experience: { type: "dir", children: expChildren },
+                        "resume.pdf": { type: "file", binary: true },
+                    },
+                };
             }
+            const FS = buildFS();
+            let cwd = [];
 
-            // FS utilities
-            function resolvePath(pathStr) {
-                if (!pathStr || pathStr.trim() === "") return cwd.slice();
-                const parts = pathStr.split("/").filter((p) => p !== "");
-                let result = pathStr.startsWith("/") ? [] : cwd.slice();
-                for (const p of parts) {
-                    if (p === ".") continue;
-                    if (p === "..") {
-                        if (result.length > 0) result.pop();
-                    } else if (p === "~") result = [];
-                    else result.push(p);
-                }
-                return result;
-            }
             function getNode(pathArr) {
                 let node = FS;
                 for (const seg of pathArr) {
@@ -197,576 +243,401 @@
                 }
                 return node;
             }
-            function listDir(pathArr) {
-                const node = getNode(pathArr);
-                if (!node || node.type !== "dir") return null;
-                return Object.keys(node.children)
-                    .sort((a, b) => {
+            function resolvePath(pathStr) {
+                if (!pathStr || pathStr.trim() === "") return cwd.slice();
+                const parts = pathStr.split("/").filter((p) => p !== "");
+                let result = pathStr.startsWith("/") ? [] : cwd.slice();
+                for (const p of parts) {
+                    if (p === "." || p === "~") {
+                        if (p === "~") result = [];
+                        continue;
+                    }
+                    if (p === "..") {
+                        if (result.length) result.pop();
+                    } else result.push(p);
+                }
+                return result;
+            }
+            function promptPath() {
+                return "~" + (cwd.length ? "/" + cwd.join("/") : "");
+            }
+
+            // ---- Section renderers (return HTML strings) ----------------
+            function renderAbout() {
+                return `<div class="card">
+                    <div class="card-h">${esc(DATA.name)} — ${esc(DATA.title)}</div>
+                    <p>${esc(DATA.summary)}</p>
+                    <p class="dim">15+ years · ${esc(DATA.contact.location)} · type <span class="cmd">experience</span> to see the work history.</p>
+                </div>`;
+            }
+            function renderSkills() {
+                let rows = "";
+                for (const [group, items] of Object.entries(DATA.skills)) {
+                    rows += `<div class="skill-row"><span class="skill-k">${esc(group)}</span><span class="skill-v">${items.map(esc).join(", ")}</span></div>`;
+                }
+                return `<div class="card"><div class="card-h">Technical Skills</div>${rows}</div>`;
+            }
+            function renderContact() {
+                const c = DATA.contact;
+                return `<div class="card">
+                    <div class="card-h">Contact</div>
+                    <div class="skill-row"><span class="skill-k">email</span><span class="skill-v"><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></span></div>
+                    <div class="skill-row"><span class="skill-k">phone</span><span class="skill-v">${esc(c.phone)}</span></div>
+                    <div class="skill-row"><span class="skill-k">location</span><span class="skill-v">${esc(c.location)}</span></div>
+                    <div class="skill-row"><span class="skill-k">linkedin</span><span class="skill-v"><a href="${esc(c.linkedin)}" target="_blank" rel="noopener">${esc(c.linkedin)}</a></span></div>
+                </div>`;
+            }
+            function renderJob(job) {
+                const bullets = job.bullets
+                    .map((b) => `<li>${esc(b)}</li>`)
+                    .join("");
+                return `<div class="card job">
+                    <div class="job-h">
+                        <span class="job-co">${esc(job.company)}</span>
+                        <span class="job-when">${esc(fmtRange(job))}</span>
+                    </div>
+                    <div class="job-role">${esc(job.role)}</div>
+                    <ul>${bullets}</ul>
+                </div>`;
+            }
+            function renderAllExperience() {
+                return DATA.experience.map(renderJob).join("");
+            }
+
+            // ---- Full-resume document overlay ---------------------------
+            const overlay = document.getElementById("doc-overlay");
+            const resumeDoc = document.getElementById("resume-doc");
+
+            function buildDoc() {
+                const c = DATA.contact;
+                let skills = "";
+                for (const [group, items] of Object.entries(DATA.skills)) {
+                    skills += `<div class="d-skill"><span class="d-skill-k">${esc(group)}</span><span>${items.map(esc).join(", ")}</span></div>`;
+                }
+                let jobs = "";
+                for (const job of DATA.experience) {
+                    jobs += `<div class="d-job">
+                        <div class="d-job-h"><span>${esc(job.company)}</span><span class="d-when">${esc(fmtRange(job))}</span></div>
+                        <div class="d-role">${esc(job.role)}</div>
+                        <ul>${job.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>
+                    </div>`;
+                }
+                resumeDoc.innerHTML = `
+                    <header class="d-head">
+                        <h1>${esc(DATA.name)}</h1>
+                        <div class="d-title">${esc(DATA.title)}</div>
+                        <div class="d-contact">
+                            <a href="mailto:${esc(c.email)}">${esc(c.email)}</a> ·
+                            <span>${esc(c.phone)}</span> ·
+                            <span>${esc(c.location)}</span> ·
+                            <a href="${esc(c.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>
+                        </div>
+                    </header>
+                    <section><h2>Professional Summary</h2><p>${esc(DATA.summary)}</p></section>
+                    <section><h2>Core Competencies</h2><div class="d-skills">${skills}</div></section>
+                    <section><h2>Professional Experience</h2>${jobs}</section>
+                    <section class="d-refs"><p>${esc(DATA.references)}</p></section>`;
+            }
+
+            function openDoc() {
+                buildDoc();
+                overlay.hidden = false;
+                document.body.classList.add("doc-open");
+                document.getElementById("close-doc").focus();
+            }
+            function closeDoc() {
+                overlay.hidden = true;
+                document.body.classList.remove("doc-open");
+                focusInput();
+            }
+            // Renders the full resume, then hands it to the browser's
+            // print dialog (the accurate "Save as PDF" path — always in
+            // sync with the data above, no stale file to maintain).
+            function saveAsPdf() {
+                if (overlay.hidden) openDoc();
+                requestAnimationFrame(() => window.print());
+            }
+
+            document.getElementById("open-doc").addEventListener("click", openDoc);
+            document.getElementById("close-doc").addEventListener("click", closeDoc);
+            document
+                .getElementById("print-doc")
+                .addEventListener("click", saveAsPdf);
+            overlay.addEventListener("click", (e) => {
+                if (e.target === overlay) closeDoc();
+            });
+
+            // ---- Commands -----------------------------------------------
+            const COMMANDS = {
+                help() {
+                    print(
+                        `<div class="card"><div class="card-h">Commands</div>
+                        <div class="skill-row"><span class="skill-k">about</span><span class="skill-v">professional summary</span></div>
+                        <div class="skill-row"><span class="skill-k">skills</span><span class="skill-v">technical skills, grouped</span></div>
+                        <div class="skill-row"><span class="skill-k">experience [name]</span><span class="skill-v">work history (e.g. <span class="cmd">experience zumba</span>)</span></div>
+                        <div class="skill-row"><span class="skill-k">contact</span><span class="skill-v">how to reach me</span></div>
+                        <div class="skill-row"><span class="skill-k">resume</span><span class="skill-v">open the full resume as one page</span></div>
+                        <div class="skill-row"><span class="skill-k">pdf</span><span class="skill-v">save the full resume as a PDF (via print)</span></div>
+                        <div class="skill-row"><span class="skill-k">ls / cd / cat / pwd</span><span class="skill-v">poke around the filesystem</span></div>
+                        <div class="skill-row"><span class="skill-k">clear</span><span class="skill-v">clear the screen</span></div>
+                        </div>`,
+                    );
+                },
+                about: renderAndPrint(renderAbout),
+                summary: renderAndPrint(renderAbout),
+                whoami: renderAndPrint(renderAbout),
+                skills: renderAndPrint(renderSkills),
+                contact: renderAndPrint(renderContact),
+                experience(args) {
+                    if (args[0]) {
+                        const q = args[0].toLowerCase();
+                        const match = DATA.experience.find(
+                            (j) =>
+                                j.slug.includes(q) ||
+                                j.company.toLowerCase().includes(q),
+                        );
+                        if (match) return print(renderJob(match));
+                        return print(
+                            `experience: no role matching '${esc(args[0])}'. Try: ${DATA.experience
+                                .map((j) => j.slug)
+                                .join(", ")}`,
+                            "error",
+                        );
+                    }
+                    print(renderAllExperience());
+                },
+                resume: openDoc,
+                pdf() {
+                    print(
+                        `Rendering the resume for your browser's Save-as-PDF dialog …`,
+                    );
+                    saveAsPdf();
+                },
+                download() {
+                    COMMANDS.pdf();
+                },
+                clear() {
+                    screen.innerHTML = "";
+                },
+                pwd() {
+                    print(promptPath());
+                },
+                ls(args) {
+                    const target = args[0] ? resolvePath(args[0]) : cwd.slice();
+                    const node = getNode(target);
+                    if (!node || node.type !== "dir")
+                        return print(
+                            `ls: cannot access '${esc(args[0] || "")}': No such directory`,
+                            "error",
+                        );
+                    const names = Object.keys(node.children).sort((a, b) => {
                         const A = node.children[a],
                             B = node.children[b];
                         if (A.type === B.type) return a.localeCompare(b);
                         return A.type === "dir" ? -1 : 1;
-                    })
-                    .map((name) => ({ name, node: node.children[name] }));
-            }
-
-            // Tab completion (simple)
-            function performTabCompletion(inputSpan) {
-                const value = inputSpan.textContent || "";
-                const parts = value.trim().split(/\s+/);
-                const last = parts.pop() || "";
-                const prefix = value.endsWith(" ") ? "" : last;
-                const cmds = [
-                    "ls",
-                    "cd",
-                    "cat",
-                    "panel",
-                    "help",
-                    "clear",
-                    "pwd",
-                ];
-                let completions = [];
-                if (parts.length === 0) {
-                    completions = cmds.filter((c) => c.startsWith(prefix));
-                } else {
-                    // filename completion in cwd
-                    const list = listDir(cwd) || [];
-                    completions = list
-                        .map((i) => i.name)
-                        .filter((n) => n.startsWith(prefix));
-                }
-                if (completions.length === 1) {
-                    const newVal =
-                        (parts.length ? parts.join(" ") + " " : "") +
-                        completions[0] +
-                        (completeIsDir(completions[0]) ? "/" : "");
-                    inputSpan.textContent = newVal;
-                    placeCaretAtEnd(inputSpan);
-                } else if (completions.length > 1) {
-                    pushLine(completions.join("    "));
-                    renderPrompt(value);
-                }
-            }
-            function completeIsDir(name) {
-                const node = getNode(cwd.concat([name]));
-                return node && node.type === "dir";
-            }
-
-            // Command processing
-            function processCommand(raw) {
-                const parts = raw.trim().split(/\s+/).filter(Boolean);
-                const cmd = parts[0] ? parts[0].toLowerCase() : "";
-                const args = parts.slice(1);
-                switch (cmd) {
-                    case "":
-                        renderPrompt();
-                        break;
-                    case "help":
-                        pushLines([
-                            "Available commands:",
-                            "  ls [path]        List directory contents",
-                            "  cd [dir]         Change directory (cd .. to go up)",
-                            "  cat <file>       Show file contents (raw for YAML files)",
-                            "  panel <name>     Render a YAML panel from /content/<name>.yaml",
-                            "  pwd              Show current directory",
-                            "  clear            Clear the screen",
-                            "  help             Show this help",
-                        ]);
-                        renderPrompt();
-                        break;
-                    case "pwd":
-                        pushLine(getPromptPath());
-                        renderPrompt();
-                        break;
-                    case "clear":
-                        screen.innerHTML = "";
-                        renderPrompt();
-                        break;
-                    case "ls": {
-                        const target = args[0]
-                            ? resolvePath(args[0])
-                            : cwd.slice();
-                        const list = listDir(target);
-                        if (list === null)
-                            pushLine(
-                                `ls: cannot access '${args[0] || ""}': No such directory`,
-                            );
-                        else {
-                            const formatted = list
-                                .map((item) =>
-                                    item.node.type === "dir"
-                                        ? `${item.name}/`
-                                        : item.name,
-                                )
-                                .join("    ");
-                            pushLine(formatted);
-                        }
-                        renderPrompt();
-                        break;
-                    }
-                    case "cd": {
-                        const targetPath = args[0] ? args[0] : "~";
-                        const resolved = resolvePath(targetPath);
-                        const node = getNode(resolved);
-                        if (!node) {
-                            pushLine(
-                                `cd: ${targetPath}: No such file or directory`,
-                                "error",
-                            );
-                            renderPrompt();
-                        } else if (node.type !== "dir") {
-                            pushLine(
-                                `cd: ${targetPath}: Not a directory`,
-                                "error",
-                            );
-                            renderPrompt();
-                        } else {
-                            cwd = resolved;
-                            renderPrompt();
-                        }
-                        break;
-                    }
-                    case "cat": {
-                        if (args.length === 0) {
-                            pushLine("cat: missing operand", "error");
-                            renderPrompt();
-                            break;
-                        }
-                        const target = resolvePath(args[0]);
-                        const node = getNode(target);
-                        if (!node) {
-                            pushLine(`cat: ${args[0]}: No such file`, "error");
-                        } else if (node.type === "dir") {
-                            pushLine(
-                                `cat: ${args[0]}: Is a directory`,
-                                "error",
-                            );
-                        } else pushLines(node.content.split("\n"));
-                        renderPrompt();
-                        break;
-                    }
-                    case "panel": {
-                        if (args.length === 0) {
-                            pushLine(
-                                "panel: missing panel name (use the basename without extension)",
-                                "error",
-                            );
-                            renderPrompt();
-                            break;
-                        }
-                        const name = args[0].replace(/\.ya?ml$/i, "") + ".yaml";
-                        const node = getNode(["content", name]);
-                        if (!node) {
-                            pushLine(
-                                `panel: ${name} not found in /content`,
-                                "error",
-                            );
-                            renderPrompt();
-                            break;
-                        }
-                        try {
-                            const doc = jsyaml.load(node.content);
-                            // Render the YAML panel immediately
-                            pushLines(
-                                renderYamlPanel(doc, "content/" + name).split(
-                                    "\n",
-                                ),
-                            );
-                            // If this panel references a photo or is the 'about' panel,
-                            // attempt to render an ASCII version of the available image(s).
-                            const photoRef =
-                                doc.photo && typeof doc.photo === "string"
-                                    ? doc.photo.split("/").pop()
-                                    : "damian_profile_image.jpg";
-                            if (FS.images && FS.images[photoRef]) {
-                                // asynchronously convert the image blob to ASCII art
-                                asciiFromBlob(FS.images[photoRef], {
-                                    maxWidth: 64,
-                                })
-                                    .then((ascii) => {
-                                        pushLines(ascii.split("\n"));
-                                        renderPrompt();
-                                    })
-                                    .catch((err) => {
-                                        pushLine(
-                                            "panel: failed to convert image to ASCII",
-                                            "error",
-                                        );
-                                        renderPrompt();
-                                    });
-                                // return early; renderPrompt will be called in the promise handler
-                                break;
-                            }
-                        } catch (e) {
-                            pushLine(
-                                "panel: failed to parse YAML: " + String(e),
-                                "error",
-                            );
-                            renderPrompt();
-                            break;
-                        }
-                        renderPrompt();
-                        break;
-                    }
-                    default:
-                        pushLine(`${cmd}: command not found`, "error");
-                        renderPrompt();
-                        break;
-                }
-            }
-
-            // Render YAML panel into readable text (no side-effect files)
-            function renderYamlPanel(doc, sourcePath) {
-                if (!doc || typeof doc !== "object") return String(doc);
-                const out = [];
-                if (doc.header) {
-                    out.push(doc.header.trim());
-                    out.push("");
-                } else if (doc.title) {
-                    out.push("=== " + doc.title + " ===");
-                    out.push("");
-                }
-                if (doc.description) {
-                    out.push(doc.description.trim());
-                    out.push("");
-                }
-                if (doc.body) {
-                    out.push(doc.body.trim());
-                    out.push("");
-                }
-
-                if (doc.skills && typeof doc.skills === "object") {
-                    out.push("Skills:");
-                    for (const [group, items] of Object.entries(doc.skills)) {
-                        out.push(`  ${group}:`);
-                        for (const it of items) out.push(`    - ${it}`);
-                    }
-                    out.push("");
-                }
-
-                if (doc.items && Array.isArray(doc.items)) {
-                    out.push("Items:");
-                    for (const it of doc.items) {
-                        const nm = it.name || it.id || it.title || "(untitled)";
-                        let link = "";
-                        if (it.source) link = ` -> ${it.source}`;
-                        else if (it.href) link = ` -> ${it.href} (external)`;
-                        out.push(`  - ${nm}${link}`);
-                    }
-                    out.push("");
-                }
-
-                if (doc.references && Array.isArray(doc.references)) {
-                    out.push("References:");
-                    for (const r of doc.references) {
-                        const name = r.name || "(unknown)";
-                        const title = r.title ? `, ${r.title}` : "";
-                        out.push(`  - ${name}${title}`);
-                        if (r.linkedin)
-                            out.push(`      linkedin: ${r.linkedin}`);
-                        if (r.note) out.push(`      note: ${r.note}`);
-                    }
-                    out.push("");
-                }
-
-                if (doc.links && Array.isArray(doc.links)) {
-                    out.push("Links:");
-                    for (const l of doc.links) {
-                        const name = l.name || l.id || "(link)";
-                        if (l.source) out.push(`  - ${name} -> ${l.source}`);
-                        else if (l.href) out.push(`  - ${name} -> ${l.href}`);
-                    }
-                    out.push("");
-                }
-
-                if (out.length === 0) out.push(jsyaml.dump(doc));
-                out.push(`(source: ${sourcePath})`);
-                return out.join("\n");
-            }
-
-            // Small helper: convert an image Blob to a coarse ASCII art string.
-            // Returns a Promise<string>
-            function asciiFromBlob(blob, options = {}) {
-                const chars = options.chars || "@%#*+=-:. "; // densest -> lightest
-                const maxWidth = options.maxWidth || 48; // characters
-                return new Promise((resolve, reject) => {
-                    try {
-                        const url = URL.createObjectURL(blob);
-                        const img = new Image();
-                        img.crossOrigin = "anonymous";
-                        img.onload = () => {
-                            try {
-                                // preserve approximate aspect ratio; characters are taller than wide so scale height
-                                const ratio = img.height / img.width;
-                                const width = Math.max(
-                                    8,
-                                    Math.min(maxWidth, Math.round(maxWidth)),
-                                );
-                                const height = Math.max(
-                                    8,
-                                    Math.round(width * ratio * 0.5),
-                                );
-                                const canvas = document.createElement("canvas");
-                                canvas.width = width;
-                                canvas.height = height;
-                                const ctx = canvas.getContext("2d");
-                                ctx.drawImage(img, 0, 0, width, height);
-                                const data = ctx.getImageData(
-                                    0,
-                                    0,
-                                    width,
-                                    height,
-                                ).data;
-                                const rows = [];
-                                for (let y = 0; y < height; y++) {
-                                    let row = "";
-                                    for (let x = 0; x < width; x++) {
-                                        const i = (y * width + x) * 4;
-                                        const r = data[i],
-                                            g = data[i + 1],
-                                            b = data[i + 2];
-                                        const lum =
-                                            0.2126 * r +
-                                            0.7152 * g +
-                                            0.0722 * b;
-                                        const idx = Math.floor(
-                                            (1 - lum / 255) *
-                                                (chars.length - 1),
-                                        );
-                                        row += chars[idx];
-                                    }
-                                    rows.push(row);
-                                }
-                                URL.revokeObjectURL(url);
-                                resolve(rows.join("\n"));
-                            } catch (err) {
-                                URL.revokeObjectURL(url);
-                                reject(err);
-                            }
-                        };
-                        img.onerror = (e) => {
-                            URL.revokeObjectURL(url);
-                            reject(new Error("Image load error"));
-                        };
-                        img.src = url;
-                    } catch (err) {
-                        reject(err);
-                    }
-                });
-            }
-
-            // Treat some local file fetch responses as OK-ish (file:// quirks)
-            function okish(res) {
-                try {
-                    if (!res) return false;
-                    if (res.ok) return true;
-                    // On file:// some browsers yield status 0 or opaque and still allow body reads
-                    if (
-                        location.protocol === "file:" &&
-                        (res.status === 0 || res.type === "opaque")
-                    )
-                        return true;
-                } catch (e) {}
-                return false;
-            }
-
-            // Build FS by loading YAML files discovered from a manifest or a small fallback list.
-
-            async function buildFSFromContent() {
-                const base = "content/";
-                const manifestUrls = [
-                    "content/index.json",
-                    "content/list.json",
-                ];
-                let files = [];
-                // Try manifest first
-                for (const m of manifestUrls) {
-                    try {
-                        const r = await fetch(m, { cache: "no-store" });
-                        if (r.ok) {
-                            const body = await r.json();
-
-                            if (Array.isArray(body)) {
-                                files = body
-                                    .map((s) =>
-                                        String(s).replace(/^content\//i, ""),
-                                    )
-                                    .filter((s) => /\.ya?ml$/i.test(s));
-                                break;
-                            }
-                        }
-                    } catch (e) {}
-                }
-
-                // If no manifest, try a safe fallback of commonly-named panels.
-                if (files.length === 0) {
-                    const fallback = [
-                        "about.yaml",
-                        "skills.yaml",
-                        "references.yaml",
-                    ];
-                    for (const name of fallback) {
-                        try {
-                            const method =
-                                location.protocol === "file:" ? "GET" : "HEAD";
-                            const r = await fetch(base + name, { method });
-                            if (okish(r)) files.push(name);
-                        } catch (e) {}
-                    }
-                }
-
-                // If still empty, attempt to fetch directory index (some servers list it)
-                if (files.length === 0) {
-                    try {
-                        const r = await fetch(base);
-                        if (r.ok) {
-                            const html = await r.text();
-                            // crude extraction of hrefs to .yaml
-                            const matches = [
-                                ...html.matchAll(
-                                    /href=["']([^"']+\.ya?ml)["']/gi,
-                                ),
-                            ].map((m) => m[1]);
-                            for (const m of matches) {
-                                // normalize only basename or content/ prefix
-                                const bn = m.split("/").pop();
-                                if (bn && !files.includes(bn)) files.push(bn);
-                            }
-                        }
-                    } catch (e) {}
-                }
-
-                const contentDir = { type: "dir", children: {} };
-
-                for (const name of files) {
-                    try {
-                        const res = await fetch(base + name);
-
-                        if (!okish(res)) continue;
-                        const raw = await res.text();
-
-                        contentDir.children[name] = {
-                            type: "file",
-
-                            content: raw,
-                        };
-                    } catch (e) {}
-                }
-
-                // Attempt to fetch a profile image if present (common filename)
-                const images = {};
-                const imageCandidates = [
-                    "damian_profile_image.jpg",
-                    "profile.jpg",
-                    "photo.jpg",
-                ];
-                for (const imgName of imageCandidates) {
-                    try {
-                        const r = await fetch(base + imgName);
-                        if (r.ok) {
-                            const blob = await r.blob();
-                            images[imgName] = blob;
-                        }
-                    } catch (e) {
-                        // ignore missing images
-                    }
-                }
-
-                FS.children["content"] = contentDir;
-                FS.images = images;
-
-                pushLine("Loaded content files:");
-                const names = Object.keys(contentDir.children);
-                if (names.length) {
-                    pushLine(names.join("    "));
-                    pushLine("");
-                    pushLine(
-                        "Use `ls content` to view files, `cat content/<file>` for raw YAML, or `panel <name>` to render. If an image was found it can be rendered as ASCII by `panel about`.",
+                    });
+                    print(
+                        names
+                            .map((n) =>
+                                node.children[n].type === "dir"
+                                    ? `<span class="dir">${esc(n)}/</span>`
+                                    : `<span class="file">${esc(n)}</span>`,
+                            )
+                            .join("   "),
+                        "pre",
                     );
-                } else {
-                    pushLine("(no YAML files found under /content)");
-                }
+                },
+                cd(args) {
+                    const target = args[0] || "~";
+                    const resolved = resolvePath(target);
+                    const node = getNode(resolved);
+                    if (!node)
+                        return print(
+                            `cd: ${esc(target)}: No such file or directory`,
+                            "error",
+                        );
+                    if (node.type !== "dir")
+                        return print(`cd: ${esc(target)}: Not a directory`, "error");
+                    cwd = resolved;
+                },
+                cat(args) {
+                    if (!args[0]) return print("cat: missing operand", "error");
+                    const node = getNode(resolvePath(args[0]));
+                    if (!node) return print(`cat: ${esc(args[0])}: No such file`, "error");
+                    if (node.type === "dir")
+                        return print(`cat: ${esc(args[0])}: Is a directory`, "error");
+                    if (node.binary)
+                        return print(
+                            `cat: ${esc(args[0])}: binary file. Run <span class="cmd">resume</span> to view or <span class="cmd">pdf</span> to save as PDF.`,
+                        );
+                    print(node.render());
+                },
+                echo(args) {
+                    print(esc(args.join(" ")), "pre");
+                },
+                sudo() {
+                    print("Nice try. This resume runs in userspace. 🙂");
+                },
+            };
 
-                // list discovered images
-                const imgNames = Object.keys(images);
-                if (imgNames.length) {
-                    pushLine("");
-                    pushLine("Images available:");
-                    pushLine(imgNames.join("    "));
-                }
-
-                renderPrompt();
+            function renderAndPrint(fn) {
+                return () => print(fn());
             }
 
-            pushLines([
-                "resume-console v0.3 — interactive resume (YAML-sourced)",
+            const COMMAND_NAMES = Object.keys(COMMANDS);
 
-                "Attempting to load YAML panels from /content ...",
-
-                "",
-            ]);
-
-            if (location.protocol === "file:") {
-                pushLines([
-                    "Hint: This page is opened via file:// and some browsers block fetch/HEAD for local files.",
-                    "If panels don't appear, serve the folder with a simple HTTP server (e.g. python -m http.server),",
-                    "or ensure a content/index.json manifest is present. The loader accepts names with or without 'content/'.",
-                    "",
-                ]);
+            function run(raw) {
+                const parts = raw.trim().split(/\s+/).filter(Boolean);
+                if (!parts.length) return;
+                const cmd = parts[0].toLowerCase();
+                const args = parts.slice(1);
+                if (COMMANDS[cmd]) COMMANDS[cmd](args);
+                else
+                    print(
+                        `${esc(cmd)}: command not found. Type <span class="cmd">help</span>.`,
+                        "error",
+                    );
             }
 
-            // Launch loader
-            buildFSFromContent().catch((err) => {
-                pushLine(
-                    "Warning: failed to load content: " + String(err),
-                    "error",
-                );
-                renderPrompt();
-            });
+            // ---- Input line + history + tab completion ------------------
+            const history = [];
+            let historyIndex = -1;
+            let activeInput = null;
 
-            // focus behavior
-            document.addEventListener("click", () => {
-                const prompts = screen.querySelectorAll(".prompt");
-                if (prompts.length) {
-                    const last = prompts[prompts.length - 1];
-                    const input = last.querySelector(".input");
-                    if (input) {
-                        input.focus();
-                        placeCaretAtEnd(input);
-                        return;
+            function newPrompt() {
+                const line = document.createElement("div");
+                line.className = "prompt";
+                line.innerHTML = `<span class="meta">guest@ortega:<span class="path">${esc(promptPath())}</span>$</span>`;
+                const input = document.createElement("span");
+                input.className = "input";
+                input.contentEditable = "true";
+                input.spellcheck = false;
+                line.appendChild(input);
+                screen.appendChild(line);
+                activeInput = input;
+
+                input.addEventListener("keydown", onKey);
+                input.focus();
+                scrollToBottom();
+            }
+
+            function onKey(e) {
+                const input = e.currentTarget;
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    const raw = input.textContent.trim();
+                    input.contentEditable = "false";
+                    input.removeEventListener("keydown", onKey);
+                    if (raw) {
+                        history.unshift(raw);
+                        historyIndex = -1;
                     }
+                    run(raw);
+                    newPrompt();
+                } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    navHistory(1, input);
+                } else if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    navHistory(-1, input);
+                } else if (e.key === "Tab") {
+                    e.preventDefault();
+                    complete(input);
+                } else if (e.ctrlKey && e.key.toLowerCase() === "c") {
+                    e.preventDefault();
+                    input.contentEditable = "false";
+                    input.removeEventListener("keydown", onKey);
+                    print("^C");
+                    newPrompt();
+                } else if (e.ctrlKey && e.key.toLowerCase() === "l") {
+                    e.preventDefault();
+                    screen.innerHTML = "";
+                    newPrompt();
                 }
-                hiddenInput.focus();
+            }
+
+            function navHistory(dir, input) {
+                if (!history.length) return;
+                historyIndex = Math.max(
+                    -1,
+                    Math.min(history.length - 1, historyIndex + dir),
+                );
+                input.textContent = historyIndex === -1 ? "" : history[historyIndex];
+                placeCaretEnd(input);
+            }
+
+            function complete(input) {
+                const text = input.textContent;
+                const parts = text.split(/\s+/);
+                const isFirst = parts.length <= 1;
+                const frag = parts[parts.length - 1] || "";
+                let pool;
+                if (isFirst) {
+                    pool = COMMAND_NAMES;
+                } else {
+                    const node = getNode(cwd);
+                    pool = node && node.children ? Object.keys(node.children) : [];
+                }
+                const matches = pool.filter((p) => p.startsWith(frag));
+                if (matches.length === 1) {
+                    parts[parts.length - 1] = matches[0];
+                    input.textContent = parts.join(" ");
+                    placeCaretEnd(input);
+                } else if (matches.length > 1) {
+                    const carry = input.textContent;
+                    input.contentEditable = "false";
+                    input.removeEventListener("keydown", onKey);
+                    print(matches.join("   "), "pre");
+                    newPrompt();
+                    activeInput.textContent = carry;
+                    placeCaretEnd(activeInput);
+                }
+            }
+
+            function placeCaretEnd(el) {
+                const range = document.createRange();
+                range.selectNodeContents(el);
+                range.collapse(false);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+
+            function focusInput() {
+                if (activeInput && activeInput.isContentEditable) {
+                    activeInput.focus();
+                    placeCaretEnd(activeInput);
+                }
+            }
+
+            // Click anywhere in the terminal refocuses the prompt (unless
+            // the user is selecting text or the doc overlay is open).
+            terminal.addEventListener("click", () => {
+                if (overlay.hidden && !window.getSelection().toString())
+                    focusInput();
             });
 
             document.addEventListener("keydown", (e) => {
-                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "l") {
-                    e.preventDefault();
-                    screen.innerHTML = "";
-                    renderPrompt();
-                }
-                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "c") {
-                    const prompts = screen.querySelectorAll(".prompt");
-                    if (prompts.length) {
-                        const last = prompts[prompts.length - 1];
-                        const input = last.querySelector(".input");
-                        if (input && input.isContentEditable) {
-                            pushLine("^C");
-                            input.textContent = "";
-                            renderPrompt();
-                        }
-                    }
-                }
+                if (e.key === "Escape" && !overlay.hidden) closeDoc();
             });
 
-            window.addEventListener("load", () => {
-                const prompts = screen.querySelectorAll(".prompt");
-                if (prompts.length) {
-                    const last = prompts[prompts.length - 1];
-                    const input = last.querySelector(".input");
-                    if (input) input.focus();
-                }
-            });
+            // ---- Boot ----------------------------------------------------
+            const BANNER = String.raw`
+   ___                  _               ___       _
+  |   \ __ _ _ __  (_)__ _ _ _   / _ \ _ _| |_ ___ __ _ __ _
+  | |) / _' | '  \ | / _' | ' \ | (_) | '_|  _/ -_) _' / _' |
+  |___/\__,_|_|_|_||_\__,_|_||_| \___/|_|  \__\___\__, \__,_|
+                                                  |___/`;
+
+            print(`<pre class="banner">${esc(BANNER)}</pre>`);
+            print(
+                `<span class="dim">${esc(DATA.name)} · ${esc(DATA.title)} · resume-terminal v1.0</span>`,
+            );
+            print(
+                `Type <span class="cmd">help</span> to list commands, or <span class="cmd">resume</span> / hit <span class="cmd">▤ full resume</span> to read it all at once.`,
+            );
+            print("");
+            newPrompt();
         </script>
     </body>
 </html>

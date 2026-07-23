@@ -30,3 +30,9 @@ variable "use_oidc" {
   description = "Use OIDC authentication"
   default     = false
 }
+
+variable "swa_location" {
+  type        = string
+  description = "Region for Static web app"
+  default     = "eastus2"
+}
