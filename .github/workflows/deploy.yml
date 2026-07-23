@@ -53,18 +53,18 @@ jobs:
         id: tfout
         working-directory: tofu
         run: |
-          echo "rg=$(tofu output -raw resource_group)" >> $GITHUB_OUTPUT
-          echo "sa=$(tofu output -raw storage_account)" >> $GITHUB_OUTPUT
-          echo "web=$(tofu output -raw static_web_url)" >> $GITHUB_OUTPUT
+          echo "web=$(tofu output -raw static_web_url)" >> "$GITHUB_OUTPUT"
+          TOKEN=$(tofu output -raw swa_api_token)
+          echo "::add-mask::$TOKEN"
+          echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
 
-      - name: Upload static site to $web
-        run: |
-          az storage blob upload-batch \
-            --account-name "${{ steps.tfout.outputs.sa }}" \
-            --auth-mode login \
-            -s site \
-            -d '$web' \
-            --overwrite
+      - name: Deploy site to Static Web App
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.tfout.outputs.token }}
+          action: upload
+          app_location: "site"
+          skip_app_build: true
 
       - name: Post the site URL
         run: |
