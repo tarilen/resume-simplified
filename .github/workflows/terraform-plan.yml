@@ -109,7 +109,7 @@ jobs:
             else await github.rest.issues.createComment({ ...args, issue_number: context.issue.number });       
 
       - name: Setup Infracost
-        uses: infracost/action/setup@v3
+        uses: infracost/actions/setup@v3
         with:
           api-key: ${{ secrets.INFRACOST_API_KEY }}
 
