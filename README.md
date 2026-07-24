@@ -1,6 +1,6 @@
 # Resume Site (Azure Static Web App via OpenTofu)
 
-**Live:** https://yellow-beach-03778770f.7.azurestaticapps.net
+**Live:** https://resume.theginger.dev
 
 ## Secrets you’ll need on the repo
 
