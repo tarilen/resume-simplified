@@ -1,0 +1,72 @@
+name: terraform-plan
+
+on:
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: plan-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+env:
+    ARM_USE_OIDC: "true"
+    ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+    ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    TF_VAR_client_id: ${{ secrets.AZURE_CLIENT_ID }}
+    TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+    TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure OIDC Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}   
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install OpenTofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: "1.6.0"
+
+      - name: Format check
+        working-directory: tofu
+        run: tofu fmt -check -recursive
+
+      - name: Tofu Init
+        working-directory: tofu
+        run: tofu init -input=false     
+
+      - name: Validate
+        working-directory: tofu
+        run: tofu plan -no-color -input=false -out=tfplan | tee plan.txt
+
+      - name: Comment plan on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let plan = fs.readFileSync('tofu/plan.txt', 'utf8');
+            if (plan.length > 60000) plan = '…(truncated)…\n' + plan.slice(-60000);
+            const marker = '<!-- tofu-plan -->';
+            const body = `${marker}\n#### OpenTofu Plan #### \n\`\`\`hcl\n${plan}\n\`\`\``;
+            const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number,
+            });
+            const prev = comments.find(c => c.body.includes(marker));
+            const args = { owner: context.repo.owner, repo: context.repo.repo, body };
+            if (prev) await github.rest.issues.updateComment({ ...args, comment_id: prev.id });
+            else await github.rest.issues.createComment({ ...args, issue_number: context.issue.number });
+          
