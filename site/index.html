@@ -205,6 +205,9 @@
 
             const screen = document.getElementById("screen");
             const terminal = document.getElementById("terminal");
+            // Public, CORS-enabled JSON from the Better Stack status page —
+            // no auth token, safe to fetch straight from the browser.
+            const STATUS_URL = "https://theginger.betteruptime.com/index.json";
 
             // ---- Helpers -------------------------------------------------
             const esc = (s) =>
@@ -224,6 +227,7 @@
                 block.innerHTML = html;
                 screen.appendChild(block);
                 scrollToBottom();
+                return block;
             }
 
             function fmtRange(job) {
@@ -396,6 +400,7 @@
                         <div class="skill-row"><span class="skill-k">contact</span><span class="skill-v">how to reach me</span></div>
                         <div class="skill-row"><span class="skill-k">resume</span><span class="skill-v">open the full resume as one page</span></div>
                         <div class="skill-row"><span class="skill-k">pdf</span><span class="skill-v">save the full resume as a PDF (via print)</span></div>
+                        <div class="skill-row"><span class="skill-k">status</span><span class="skill-v">live uptime from the status page</span></div>
                         <div class="skill-row"><span class="skill-k">ls / cd / cat / pwd</span><span class="skill-v">poke around the filesystem</span></div>
                         <div class="skill-row"><span class="skill-k">clear</span><span class="skill-v">clear the screen</span></div>
                         </div>`,
@@ -495,6 +500,66 @@
                 },
                 sudo() {
                     print("Nice try. This resume runs in userspace. 🙂");
+                },
+                status() {
+                    // Drop a placeholder synchronously and keep a handle to it,
+                    // so the command returns immediately (the prompt behaves
+                    // normally) and we fill this node in once the fetch resolves.
+                    const node = print('<span class="dim">checking status …</span>');
+
+                    // Map a Better Stack state string -> a colored dot.
+                    const dot = (s) => {
+                        const st = (s || "").toLowerCase();
+                        const color =
+                            st === "operational"
+                                ? "var(--accent)"
+                                : st === "degraded" || st === "maintenance"
+                                  ? "#e8c34a"
+                                  : "var(--error)";
+                        return `<span style="color:${color}">●</span>`;
+                    };
+                    // "under_maintenance" -> "Under Maintenance"
+                    const pretty = (s) =>
+                        (s || "unknown")
+                            .replace(/_/g, " ")
+                            .replace(/\b\w/g, (c) => c.toUpperCase());
+
+                    (async () => {
+                        try {
+                            const res = await fetch(STATUS_URL, {
+                                cache: "no-store",
+                            });
+                            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                            const j = await res.json();
+
+                            const attr = j.data.attributes;
+                            const overall = attr.aggregate_state;
+                            const updated = new Date(
+                                attr.updated_at,
+                            ).toLocaleString();
+                            const resources = (j.included || []).filter(
+                                (x) => x.type === "status_page_resource",
+                            );
+
+                            const rows = resources
+                                .map((r) => {
+                                    const a = r.attributes;
+                                    const pct = (a.availability * 100).toFixed(2);
+                                    return `<div class="skill-row"><span class="skill-k">${dot(a.status)} ${esc(a.public_name)}</span><span class="skill-v">${esc(pretty(a.status))} · ${pct}% avail</span></div>`;
+                                })
+                                .join("");
+
+                            node.innerHTML =
+                                `<div class="card"><div class="card-h">System status</div>` +
+                                `<div class="skill-row"><span class="skill-k">${dot(overall)} Overall</span><span class="skill-v">${esc(pretty(overall))}</span></div>` +
+                                rows +
+                                `<div class="dim" style="margin-top:.5rem">as of ${esc(updated)} · <a href="https://theginger.betteruptime.com/" target="_blank" rel="noopener">status page ↗</a></div>` +
+                                `</div>`;
+                        } catch (e) {
+                            node.innerHTML = `<span class="error">status: couldn't reach the status page (${esc(e.message)})</span>`;
+                        }
+                        scrollToBottom();
+                    })();
                 },
             };
 
