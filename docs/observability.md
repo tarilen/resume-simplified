@@ -7,7 +7,7 @@
 
 ## SLIs
 - **Availability:** % of synthetic checks returning 200 AND containing "Damian Ortega", 30-day rolling.
-- **Latency:** p95 response time < 800ms over 30 days.
+- **Latency:** p95 response time < 800ms over 30 days based on current metrics.
 
 ## SLOs
 - Availability: **99.9%** over 30 days.
