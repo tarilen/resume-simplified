@@ -55,22 +55,55 @@ jobs:
 
       - name: Plan
         working-directory: tofu
-        run: tofu plan -no-color -input=false -out=tfplan | tee plan.txt
+        run: tofu plan -no-color -input=false -out=tfplan
+
+      - name: Plan to JSON
+        working-directory: tofu
+        run: tofu show -json tfplan > plan.json 
 
       - name: Comment plan on PR
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            let plan = fs.readFileSync('tofu/plan.txt', 'utf8');
-            if (plan.length > 60000) plan = '…(truncated)…\n' + plan.slice(-60000);
+            const plan = JSON.parse(fs.readFileSync('tofu/plan.json', 'utf8'));
+            
+            // only resources that actually change (skip no-op / read)
+            const changes = (plan.resource_changes || []).filter(rc => {
+              const a = rc.change.actions;
+              return !(a.length === 1 && (a[0] === 'no-op' || a[0] === 'read'));
+            });
+            
+            // map an actions array -> a friendly label (create+delete = replace)
+            const label = a =>
+                a.includes('create') && a.includes('delete') ? '♻️ replace'
+              : a[0] === 'create' ? '➕ create'
+              : a[0] === 'update' ? '📝 update'
+              : a[0] === 'delete' ? '❌ destroy'
+              : a.join(',');
+            
+            // tally for the header line
+            const c = { add: 0, change: 0, destroy: 0 };
+            for (const rc of changes) {
+              const a = rc.change.actions;
+              if (a.includes('create')) c.add++;
+              if (a.includes('delete')) c.destroy++;
+              if (a.length === 1 && a[0] === 'update') c.change++;
+            }
+            
             const marker = '<!-- tofu-plan -->';
-            const body = `${marker}\n#### OpenTofu Plan #### \n\`\`\`hcl\n${plan}\n\`\`\``;
+            let body;
+            if (changes.length === 0) {
+              body = `${marker}\n#### OpenTofu Plan 📖\n✅ **No changes** — infrastructure matches configuration.`;
+            } else {
+              const rows = changes.map(rc => `| ${label(rc.change.actions)} | \`${rc.address}\` |`).join('\n');
+              body = `${marker}\n#### OpenTofu Plan 📖\n**${c.add} to add · ${c.change} to change · ${c.destroy} to destroy**\n\n| action | resource |\n|---|---|\n${rows}\n\n_Attribute diff omitted — public repo._`;
+            }
+            
             const { data: comments } = await github.rest.issues.listComments({
-            owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number,
+              owner: context.repo.owner,sue_number:context.issue.number,
             });
             const prev = comments.find(c => c.body.includes(marker));
-            const args = { owner: context.repo.owner, repo: context.repo.repo, body };
+            const args = { owner: contexrepo.repo, body };
             if (prev) await github.rest.issues.updateComment({ ...args, comment_id: prev.id });
-            else await github.rest.issues.createComment({ ...args, issue_number: context.issue.number });
-          
+            else await github.rest.issuessue_number:context.issue.number });         
