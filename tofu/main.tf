@@ -9,6 +9,12 @@ resource "azurerm_static_web_app" "site" {
   location            = var.swa_location
   sku_tier            = "Free"
   sku_size            = "Free"
+  lifecycle {
+    ignore_changes = [
+      repository_url,
+      repository_branch
+    ]
+  }
 }
 
 resource "azurerm_static_web_app_custom_domain" "theginger" {
