@@ -107,3 +107,19 @@ jobs:
             const args = { owner: context.repo.owner, repo: context.repo.repo, body };
             if (prev) await github.rest.issues.updateComment({ ...args, comment_id: prev.id });
             else await github.rest.issues.createComment({ ...args, issue_number: context.issue.number });       
+
+      - name: Setup Infracost
+        uses: infracost/action/setup@v3
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
+      - name: Infracost breakdown
+        run: infracost breakdown --path=tofu/plan.json --format=json --out-file=/tmp/infracost.json
+
+      - name: Infracost PR comment
+        run: |
+          infracost comment github --path=/tmp/infracost.json \
+            --repo=$GITHUB_REPOSITORY \
+            --pull-request=${{ github.event.pull_request.number }} \
+            --github-token=${{ github.token }} \
+            --behavior=update
