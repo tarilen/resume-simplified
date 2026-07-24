@@ -10,3 +10,9 @@ resource "azurerm_static_web_app" "site" {
   sku_tier            = "Free"
   sku_size            = "Free"
 }
+
+resource "azurerm_static_web_app_custom_domain" "theginger" {
+  domain_name       = "resume.theginger.dev"
+  static_web_app_id = azurerm_static_web_app.site.id
+  validation_type   = "cname-delegation"
+}
