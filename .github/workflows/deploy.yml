@@ -80,7 +80,8 @@ jobs:
           for i in $(seq 1 6); do
             isLive=$(curl -fsSL --max-time 10 "$SITE/version.txt?cb=$GITHUB_SHA" | tr -d '[:space:]' || true)
             if [ "${isLive}" = "${GITHUB_SHA}" ]; then
-              if curl -fsSL --max-time 10 "$SITE/?cb=$GITHUB_SHA" | grep -q "Damian Ortega"; then
+              body=$(curl -fsSL --max-time 10 "$SITE/?cb=$GITHUB_SHA" || true)
+              if [[ "${body}" == *"Damian Ortega"* ]]; then
                 echo "$GITHUB_SHA is live and content is intact"; exit 0
               fi
             fi
