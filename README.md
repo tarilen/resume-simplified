@@ -20,10 +20,26 @@ tofu init
 tofu apply
 
 ## Deploy via CI
-- Push to `main`
-- Workflow provisions RG + Storage Static Site
-- CI uploads `site/` to `$web` container
-- Find the URL in the job output (static_web_url)
+- Push to branch
+- Open PR
+- OpenTofu plan, validate, and infracost workflows run
+- Merge to main triggers workflow to provision RG + Azure Static Web App
+- Post-deploy smoke test validation
+
+
+## Rollback
+The deploy workflow ends with a **post-deploy smoke test**: it stamps the commit SHA into `site/version.txt`, then polls the live site until `/version.txt` matches the deployed SHA **and** the homepage still contains the expected content. If that check fails, the workflow goes red.
+
+A red smoke test means the deploy already shipped — the bad or incomplete version is **live** (Static Web Apps uploads before the check runs; this is post-deploy verification, not a pre-merge gate). To recover:
+
+1. Identify the offending commit on `main` (the one the failed run deployed).
+2. Open a **revert PR** — on GitHub, the merged PR's **"Revert"** button creates the branch and PR for you (`git revert <sha>` on a branch works too). Merging the revert is what redeploys the previous good state; direct pushes to `main` are not the path once branch protection is on.
+3. The merge re-triggers the workflow, which redeploys the previous good state and re-runs the smoke test to confirm recovery (watch for the green ✅ in the Actions log).
+4. If the deploy itself is fine but the site is unreachable for infra reasons (DNS/cert/Cloudflare), check the [status page](https://theginger.betteruptime.com/) — the outage may be upstream of this repo, in which case a revert won't help.
+
+> **Break-glass:** the revert PR must pass the same required checks as any change, which can slow an urgent rollback. For a genuine emergency, a repo admin can merge the revert without waiting (admin bypass) — a deliberate, logged action, not the default.
+>
+> **Follow-up:** a true pre-promotion gate (deploy to a staging environment, smoke-test *that*, then promote) is tracked via SWA PR preview environments.
 
 ## Customize
 - All resume content lives in one place: the `<script type="application/json" id="resume-data">` block near the top of `site/index.html`. Edit that JSON (summary, skills, experience, contact) and the terminal, the section commands, and the full-resume view all update from it.
