@@ -29,6 +29,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Stamp Commit SHA
+        run: |
+            echo $GITHUB_SHA > site/version.txt
+
       - name: Azure OIDC login
         uses: azure/login@v2
         with:
@@ -67,3 +71,20 @@ jobs:
       - name: Post the site URL
         run: |
           echo "Site: ${{ steps.tfout.outputs.web }}"
+
+      - name: Post-deploy smoke test
+        env:
+          SITE: https://resume.theginger.dev
+        run: |
+          echo "Post deploy SHA verification"
+          for i in $(seq 1 6); do
+            isLive=$(curl -fsSL --max-time 10 "$SITE/version.txt?cb=$GITHUB_SHA" | tr -d '[:space:]' || true)
+            if [ "${isLive}" = "${GITHUB_SHA}" ]; then
+              if curl -fsSL --max-time 10 "$SITE/?cb=$GITHUB_SHA" | grep -q "Damian Ortega"; then
+                echo "$GITHUB_SHA is live and content is intact"; exit 0
+              fi
+            fi
+            echo "attempt $i: not ready (live='$isLive'); waiting…"; sleep 10
+          done
+          echo "::error::smoke test failed — new version not live or content assertion failed"
+          exit 1
