@@ -1,4 +1,5 @@
 # Terraform/OpenTofu local data
+.zed/
 *.tfstate
 *.tfstate.*
 .terraform/
