@@ -24,6 +24,7 @@ env:
 
 jobs:
   plan:
+    name: terraform-plan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
