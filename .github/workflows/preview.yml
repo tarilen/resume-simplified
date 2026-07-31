@@ -24,7 +24,7 @@ env:
 
 jobs:
   deploy-preview:
-    if: github.event.action != 'closed'
+    if: github.event.action != 'closed' && github.actor != 'dependabot[bot]'
     concurrency:
       group: preview-${{ github.event.pull_request.number }}
       cancel-in-progress: true
@@ -68,7 +68,7 @@ jobs:
           # no deployment_environment → pull_request context auto-makes a preview env
 
   close-preview:
-    if: github.event.action == 'closed'
+    if: github.event.action == 'closed' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
