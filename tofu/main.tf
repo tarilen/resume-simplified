@@ -16,7 +16,7 @@ resource "azurerm_static_web_app" "site" {
     ]
   }
 }
-
+# Static web app
 resource "azurerm_static_web_app_custom_domain" "theginger" {
   domain_name       = "resume.theginger.dev"
   static_web_app_id = azurerm_static_web_app.site.id
