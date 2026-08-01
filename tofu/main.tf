@@ -7,8 +7,8 @@ resource "azurerm_static_web_app" "site" {
   name                = "${var.resource_prefix}-site"
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.swa_location
-  sku_tier            = "Free"
-  sku_size            = "Free"
+  sku_tier            = "Standard"
+  sku_size            = "Standard"
   lifecycle {
     ignore_changes = [
       repository_url,
