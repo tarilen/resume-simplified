@@ -7,7 +7,7 @@ variable "resource_prefix" {
 variable "location" {
   type        = string
   description = "Azure region"
-  default     = "centralus"
+  default     = "eastus"
 }
 
 variable "subscription_id" {

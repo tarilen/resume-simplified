@@ -7,8 +7,8 @@ resource "azurerm_static_web_app" "site" {
   name                = "${var.resource_prefix}-site"
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.swa_location
-  sku_tier            = "Standard"
-  sku_size            = "Standard"
+  sku_tier            = "Free"
+  sku_size            = "Free"
   lifecycle {
     ignore_changes = [
       repository_url,
@@ -20,5 +20,5 @@ resource "azurerm_static_web_app" "site" {
 resource "azurerm_static_web_app_custom_domain" "theginger" {
   domain_name       = "resume.theginger.dev"
   static_web_app_id = azurerm_static_web_app.site.id
-  validation_type   = "dns-txt-token"
+  validation_type   = "cname-validation"
 }
