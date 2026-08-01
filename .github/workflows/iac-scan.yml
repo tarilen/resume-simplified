@@ -24,15 +24,11 @@ jobs:
         id: runCheckov
         uses: bridgecrewio/checkov-action@99bb2caf247dfd9f03cf984373bc6043d4e32ebf # v12.1347.0
         with:
+          working-directory: tofu
           directory: tofu
           output_format: sarif
-          output_file_path: tofu/scan-results.sarif
+          output_file_path: scan-results.sarif,
           soft_fail: true
-      - name: DEBUG - where did the sarif land
-        if: always()
-        run: |
-          find . -iname '*.sarif' -print
-          ls -la tofu || true
 
       - name: Upload results to Security tab
         if: success() || failure()
