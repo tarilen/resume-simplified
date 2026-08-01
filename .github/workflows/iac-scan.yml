@@ -28,6 +28,11 @@ jobs:
           output_format: sarif
           output_file_path: tofu/scan-results.sarif
           soft_fail: true
+      - name: DEBUG - where did the sarif land
+        if: always()
+        run: |
+          find . -iname '*.sarif' -print
+          ls -la tofu || true
 
       - name: Upload results to Security tab
         if: success() || failure()
