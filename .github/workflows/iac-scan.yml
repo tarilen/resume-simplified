@@ -24,13 +24,12 @@ jobs:
         id: runCheckov
         uses: bridgecrewio/checkov-action@99bb2caf247dfd9f03cf984373bc6043d4e32ebf # v12.1347.0
         with:
-          directory: tofu
+          directory: tofu/
           output_format: sarif
-          output_file_path: tofu/scan-results.sarif
           soft_fail: true
 
       - name: Upload results to Security tab
         if: success() || failure()
         uses: github/codeql-action/upload-sarif@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4.37.4
         with:
-            sarif_file: tofu/scan-results.sarif
+            sarif_file: results.sarif

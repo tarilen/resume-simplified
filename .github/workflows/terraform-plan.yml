@@ -50,7 +50,7 @@ jobs:
       - name: Tofu Init
         if: github.actor != 'dependabot[bot]'
         working-directory: tofu
-        run: tofu init -input=false     
+        run: tofu init -input=false
 
       - name: Validate
         if: github.actor != 'dependabot[bot]'
@@ -65,7 +65,25 @@ jobs:
       - name: Plan to JSON
         if: github.actor != 'dependabot[bot]'
         working-directory: tofu
-        run: tofu show -json tfplan > plan.json 
+        run: tofu show -json tfplan > plan.json
+
+      - name: Install Conftest
+        if: github.actor != 'dependabot[bot]'
+        env:
+          CONFTEST_VERSION: "0.68.2"
+        run: |
+          base="https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}"
+          curl -sSLO "$base/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          curl -sSLO "$base/checksums.txt"
+          grep -F "conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz" checksums.txt | sha256sum -c -
+          tar xzf "conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz" conftest
+          sudo mv conftest /usr/local/bin/
+          conftest --version
+
+      - name: Policy Gate (Conftest)
+        if: github.actor != 'dependabot[bot]'
+        working-directory: tofu
+        run: conftest test plan.json --policy policy
 
       - name: Comment plan on PR
         if: github.actor != 'dependabot[bot]'
@@ -74,13 +92,13 @@ jobs:
           script: |
             const fs = require('fs');
             const plan = JSON.parse(fs.readFileSync('tofu/plan.json', 'utf8'));
-            
+
             // only resources that actually change (skip no-op / read)
             const changes = (plan.resource_changes || []).filter(rc => {
               const a = rc.change.actions;
               return !(a.length === 1 && (a[0] === 'no-op' || a[0] === 'read'));
             });
-            
+
             // map an actions array -> a friendly label (create+delete = replace)
             const label = a =>
                 a.includes('create') && a.includes('delete') ? '♻️ replace'
@@ -88,7 +106,7 @@ jobs:
               : a[0] === 'update' ? '📝 update'
               : a[0] === 'delete' ? '❌ destroy'
               : a.join(',');
-            
+
             // tally for the header line
             const c = { add: 0, change: 0, destroy: 0 };
             for (const rc of changes) {
@@ -97,7 +115,7 @@ jobs:
               if (a.includes('delete')) c.destroy++;
               if (a.length === 1 && a[0] === 'update') c.change++;
             }
-            
+
             const marker = '<!-- tofu-plan -->';
             let body;
             if (changes.length === 0) {
@@ -106,14 +124,14 @@ jobs:
               const rows = changes.map(rc => `| ${label(rc.change.actions)} | \`${rc.address}\` |`).join('\n');
               body = `${marker}\n#### OpenTofu Plan 📖\n**${c.add} to add · ${c.change} to change · ${c.destroy} to destroy**\n\n| action | resource |\n|---|---|\n${rows}\n\n_Attribute diff omitted — public repo._`;
             }
-            
+
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number,
             });
             const prev = comments.find(c => c.body.includes(marker));
             const args = { owner: context.repo.owner, repo: context.repo.repo, body };
             if (prev) await github.rest.issues.updateComment({ ...args, comment_id: prev.id });
-            else await github.rest.issues.createComment({ ...args, issue_number: context.issue.number });       
+            else await github.rest.issues.createComment({ ...args, issue_number: context.issue.number });
 
       - name: Setup Infracost
         if: github.actor != 'dependabot[bot]'
