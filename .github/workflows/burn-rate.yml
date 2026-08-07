@@ -1,0 +1,97 @@
+name: burn-rate-alert
+
+on:
+  schedule:
+    # hint: daily, UTC. Pick an hour. GH cron can lag several minutes — fine for a daily job.
+    - cron: "30 13 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write # to open/update the ticket
+
+env:
+  MONITOR_ID: "4722449"
+  SLO: "0.999"
+
+jobs:
+  burn-rate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query Better Stack SLA (1-day + 30-day windows)
+        id: sla
+        env:
+          BS_TOKEN: ${{ secrets.BETTERSTACK_API_TOKEN }}
+        run: |
+          api="https://uptime.betterstack.com/api/v2/monitors/${MONITOR_ID}/sla"
+
+          today=$(date -u +%F)
+          yday=$(date -u -d 'yesterday' +%F)
+          d30=$(date -u -d '30 days ago' +%F)
+
+          day_dt=$(curl -fsSL -H "Authorization: Bearer $BS_TOKEN" "$api?from=$yday&to=$today" | jq -r '.data.attributes.total_downtime')
+          mon_dt=$(curl -fsSL -H "Authorization: Bearer $BS_TOKEN" "$api?from=$d30&to=$today"  | jq -r '.data.attributes.total_downtime')
+
+          echo "day_downtime=$day_dt" >> "$GITHUB_OUTPUT"
+          echo "mon_downtime=$mon_dt" >> "$GITHUB_OUTPUT"
+          echo "queried day=[$yday..$today]=$day_dt s  |  30d=[$d30..$today]=$mon_dt s"
+
+      - name: Evaluate burn & file ticket
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          DAY_DT: ${{ steps.sla.outputs.day_downtime }}
+          MON_DT: ${{ steps.sla.outputs.mon_downtime }}
+        with:
+          script: |
+            const dayDt = Number(process.env.DAY_DT);
+            const monDt = Number(process.env.MON_DT);
+
+            const ERR = 1 - 0.999;
+            const DAY_BUDGET = ERR * 86400;
+            const MON_BUDGET = ERR * 30 * 86400;
+
+            // build an array of tripped alerts, each a short human line for the issue body.
+            const dayBurn = dayDt / DAY_BUDGET;
+            const monPct  = monDt / MON_BUDGET;
+
+            const alerts = [];
+
+            // ... push messages when a threshold trips ...
+            if (dayBurn >= 3) {
+              alerts.push(`1-day burn ${dayBurn.toFixed(1)}× (downtime ${dayDt}s vs ${DAY_BUDGET}s budget)`);.
+            }
+
+            if (monPct >= .90) {
+              alerts.push(`30-day consumption ${monPct * 100}% (downtime ${monDt}s vs ${MON_BUDGET}s budget)`);
+            }
+
+            if (alerts.length === 0) {
+              core.info("no burn thresholds tripped");
+              return;
+            }
+
+            const marker = "<!-- burn-rate -->";
+            const body = `${marker}\n## ... Error budget burn rate \n\n${ alerts.join("\n") }`;
+
+            const { data: issues } = await github.rest.issues.listForRepo({
+              ...context.repo,
+              state: "open",
+              labels: ["burn-rate"],
+            });
+
+            const existing = issues.find(i => i.body?.includes(marker));
+
+            if (existing) {
+             await github.rest.issues.createComment({
+               ...context.repo,
+               issue_number: existing.number,
+               body,
+             });
+            } else {
+              await github.rest.issues.create({
+                ...context.repo,
+                title: "Error budget burn-rate alert",
+                body,
+                labels: ["burn-rate"],
+              });
+            }
