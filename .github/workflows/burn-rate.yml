@@ -26,8 +26,7 @@ jobs:
           api="https://uptime.betterstack.com/api/v2/monitors/${MONITOR_ID}/sla"
 
           today=$(date -u +%F)
-          yday="2026-7-24"
-          #yday=$(date -u -d 'yesterday' +%F)
+          yday=$(date -u -d 'yesterday' +%F)
           d30=$(date -u -d '30 days ago' +%F)
           
           day_dt=$(curl -fsSL -H "Authorization: Bearer $BS_TOKEN" "$api?from=$yday&to=$today" | jq -r '.data.attributes.total_downtime')
