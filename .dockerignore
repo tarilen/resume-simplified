@@ -1,0 +1,5 @@
+site/staticwebapp.config.json
+.git
+docs/
+tofu/
+.github
