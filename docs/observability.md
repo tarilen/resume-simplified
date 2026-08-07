@@ -21,10 +21,36 @@
 ## Error-budget policy
 - If the 30-day budget is exhausted: Should we exhaust the 30-day budget, we will prioritize reliability and stability work over new features or fixes that could potentially lead to additional overages.
 
+## Alerting
+
+**Fast-burn (page → email)**
+- Alerts fire only on *sustained* failure, not single-cycle blips.
+- **Confirmation period: 5 min** (check interval: 3 min) — a failure must persist
+  this long before an incident opens and email fires. Set above the check interval
+  so ≥2 consecutive checks must fail, which suppresses single-cycle overseas-probe
+  flaps (see the 2026-07-24 incident: its 1-min legs self-healed inside one cycle;
+  the ~5-min Asia leg sat right at the confirmation boundary).
+- **Recovery period: 3 min** — the site must pass for a full cycle before the
+  incident closes; de-flaps rapid down/up/down into a single incident.
+- **Trade-off:** accepts ~5 min of detection latency in exchange for eliminating
+  false alarms. Acceptable against the 43.2-min / 30-day budget.
+- **Channel: email only** — deliberate; a resume site doesn't warrant phone/SMS.
+
+**Slow-burn (ticket)**
+- Daily GitHub Action reads `total_downtime` (seconds) from the Better Stack SLA
+  API over two date-granular windows and opens/updates a GitHub issue when a
+  threshold trips. Lower urgency than fast-burn — a ticket, not a page.
+  - **Bad day:** last 1 day, burn ≥ 3× budget (≈4.3 min downtime) → ticket.
+  - **Budget guard:** rolling 30 days, ≥ 90% of the 43.2-min budget consumed
+    (≈39 min) → ticket; this triggers the error-budget policy above.
+  - `burn = total_downtime ÷ (0.001 × window_seconds)`. Uses the seconds counter,
+    not `availability` % (whose window basis doesn't reconcile — 07-24 read 360s
+    downtime yet 99.87% availability).
+  - The SLA endpoint takes date-granular ranges (`YYYY-MM-DD`), so sub-day windows
+    aren't possible and a daily cadence matches the data's resolution. _(In progress.)_
+
 ## Future enhancements
-- Multi-window burn-rate alerting
 - Move the status page to status.theginger.dev
-- RUM via Cloudflare Web Analytics
 
 ## Incident log
 
