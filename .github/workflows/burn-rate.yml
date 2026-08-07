@@ -58,7 +58,7 @@ jobs:
 
             // ... push messages when a threshold trips ...
             if (dayBurn >= 3) {
-              alerts.push(`1-day burn ${dayBurn.toFixed(1)}× (downtime ${dayDt}s vs ${DAY_BUDGET}s budget)`);.
+              alerts.push(`1-day burn ${dayBurn.toFixed(1)}× (downtime ${dayDt}s vs ${DAY_BUDGET}s budget)`);
             }
 
             if (monPct >= .90) {
