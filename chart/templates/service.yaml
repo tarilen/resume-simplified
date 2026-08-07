@@ -10,5 +10,5 @@ spec:
 
   ports:
     - name: {{ .Values.portName }}
-      port: {{ .Values.port }}
+      port: {{ .Values.httpPort }}
       targetPort: {{ .Values.targetPort }}

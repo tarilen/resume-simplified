@@ -5,7 +5,6 @@ metadata:
   labels:
     app: {{ .Values.appName }}
 spec:
-  replicas: {{ .Values.replicas }}
 
   selector:
     matchLabels:
@@ -20,6 +19,11 @@ spec:
         - name: {{ .Values.appName }}
           image: {{ .Values.image }}
           imagePullPolicy: {{ .Values.imagePullPolicy }}
+          resources:
+            requests:
+              cpu: 50m
+            limits:
+              cpu: 100m
           readinessProbe: # is container ready to receive traffic?
             httpGet:
               path: {{ .Values.httpGetPath }}
@@ -33,4 +37,5 @@ spec:
             initialDelaySeconds: {{ .Values.initialDelaySecondsLiveness }}
             periodSeconds: {{ .Values.periodSecondsLiveness }}
           ports:
-            - containerPort: {{ .Values.containerPort }}
+            - name: {{ .Values.portName }}
+              containerPort: {{ .Values.httpPort }}
