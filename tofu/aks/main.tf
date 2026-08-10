@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "rg" {
-  name      = "${var.resource_prefix}-OpenTofu-AKS"
-  location  = var.location
+  name     = "${var.resource_prefix}-OpenTofu-AKS"
+  location = var.location
 }
 
 resource "azurerm_kubernetes_cluster" "resume" {
@@ -11,9 +11,9 @@ resource "azurerm_kubernetes_cluster" "resume" {
   sku_tier            = "Free"
 
   default_node_pool {
-    name        = "default"
-    node_count  = var.node_count
-    vm_size     = var.vm_size
+    name       = "default"
+    node_count = var.node_count
+    vm_size    = var.vm_size
   }
 
   identity {
