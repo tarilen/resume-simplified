@@ -12,9 +12,9 @@ spec:
       rules:
         - alert: BurnRateMonitor
           expr: >-
-            sum(rate(nginx_ingress_controller_requests{status=~"5.."}[5m]) or vector(0)) / sum(rate(nginx_ingress_controller_requests[5m]))) / 0.001 > 14.4
+            sum(rate(nginx_ingress_controller_requests{status=~"5.."}[5m]) or vector(0)) / sum(rate(nginx_ingress_controller_requests[5m])) / 0.001 > 14.4
             and
-            (sum(rate(nginx_ingress_controller_requests{status=~"5.."}[1h]) or vector(0)) / sum(rate(nginx_ingress_controller_requests[1h]))) / 0.001 > 14.4
+            sum(rate(nginx_ingress_controller_requests{status=~"5.."}[1h]) or vector(0)) / sum(rate(nginx_ingress_controller_requests[1h])) / 0.001 > 14.4
           labels:
             severity: page
           annotations:
