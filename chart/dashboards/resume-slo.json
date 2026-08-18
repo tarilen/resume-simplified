@@ -435,8 +435,8 @@
     ]
   },
   "timezone": "browser",
-  "title": "Resume-app",
+  "title": "Resume SLO / RED (GitOps)",
   "version": 9,
-  "uid": "ad25669",
-  "id": 3155747737251840
+  "uid": "resume-slo-gitops",
+  "id": null
 }
